@@ -12,6 +12,7 @@ data/run/
 
 # Cloudflare Pages deploy
 webdeploy/data.js
+view/_worker.js
 .wrangler/
 .dev.vars
 .vk_password
