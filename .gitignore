@@ -17,9 +17,11 @@ view/_worker.js
 .dev.vars
 .vk_password
 
-# MCP server build artifacts
+# Build artifacts and caches
 mcp-server/node_modules/
 mcp-server/dist/
+lp/node_modules/
+lp/.wrangler/
 
 # HANDOVER / local docs (keep out of OSS repo)
 HANDOVER.md

@@ -1,6 +1,6 @@
 # @vibeknowledge/mcp-server
 
-MCP server for [Vibe Knowledge](https://github.com/vibeknowledge/vibe-knowledge).
+MCP server for [Vibe Knowledge](https://github.com/Shown06/vibe-knowledge).
 
 Exposes your personal coding flashcard collection to Claude Code.
 

@@ -36,7 +36,7 @@ Open view/index.html → Review cards, quiz yourself, explore concept map
 ## Install
 
 ```bash
-git clone https://github.com/vibeknowledge/vibe-knowledge
+git clone https://github.com/Shown06/vibe-knowledge
 cd vibe-knowledge
 bash install.sh
 ```
