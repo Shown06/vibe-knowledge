@@ -1,0 +1,19 @@
+name = "vibe-knowledge-lp"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# KV namespace for waitlist emails
+# Create with: wrangler kv namespace create WAITLIST
+# Then paste the id below
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Environment secrets (set via wrangler secret put):
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put NOTIFY_EMAIL
+#   wrangler secret put ADMIN_TOKEN
+
+# Static assets — LP HTML served from the same Pages project
+[site]
+bucket = "./"

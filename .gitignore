@@ -1,0 +1,28 @@
+# Generated data — personal, not for distribution
+view/data.js
+data-backup/
+artifacts/
+
+# Runtime / logs
+data/distill.log
+data/events.jsonl
+data/.cursor
+data/.lock
+data/run/
+
+# Cloudflare Pages deploy
+webdeploy/data.js
+.wrangler/
+.dev.vars
+.vk_password
+
+# MCP server build artifacts
+mcp-server/node_modules/
+mcp-server/dist/
+
+# HANDOVER / local docs (keep out of OSS repo)
+HANDOVER.md
+GOAL.md
+
+# macOS
+.DS_Store
