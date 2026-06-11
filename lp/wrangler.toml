@@ -4,4 +4,10 @@ pages_build_output_dir = "."
 
 [[kv_namespaces]]
 binding = "WAITLIST"
+# OSS利用者は自身のKV IDに差し替えること: wrangler kv namespace create WAITLIST
 id = "b486b1fa4807476893d774cfd47a5cb4"
+
+[[kv_namespaces]]
+binding = "VK_DATA"
+# OSS利用者は自身のKV IDに差し替えること: wrangler kv namespace create VK_DATA
+id = "cd9ffedfdeaa449d9fc9ece9fda9c898"

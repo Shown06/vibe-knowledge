@@ -5,7 +5,7 @@
 The reverse of vibe-coding.  
 Every time you build something with Claude Code, Vibe Knowledge silently translates what happened into plain-language flashcards — no extra effort required.
 
-[日本語はこちら](README.ja.md) · [Waitlist →](https://vibeknowledge.dev) · [MCP Server](#mcp-server)
+[日本語はこちら](README.ja.md) · [vibeknowledge.dev](https://vibeknowledge.dev) · [MCP Server](#mcp-server)
 
 ---
 
@@ -127,15 +127,9 @@ Available resources:
 
 ---
 
-## Cloud sync / SaaS (coming soon)
+## Website
 
-We're building a hosted version:
-
-- Sign in with your account → your cards sync across devices
-- View on mobile (PWA + native app)
-- Share a read-only link with teammates
-
-**[Join the waitlist →](https://vibeknowledge.dev)**
+**[vibeknowledge.dev](https://vibeknowledge.dev)** — project homepage with install instructions and feature overview.
 
 ---
 

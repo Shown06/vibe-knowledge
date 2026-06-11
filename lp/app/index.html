@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Knowledge — ログイン</title>
+<style>
+  :root{
+    --bg:#0e1014;--panel:#161a21;--line:#272d38;
+    --ink:#e9e6df;--ink-dim:#9aa0ab;--accent:#e0a24e;
+    --serif:"Hiragino Mincho ProN","Yu Mincho",serif;
+    --sans:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);display:flex;align-items:center;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:360px;padding:24px}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;text-align:center;margin-bottom:6px}
+  .sub{text-align:center;color:var(--ink-dim);font-size:13px;margin-bottom:32px}
+  .form{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px}
+  label{display:block;font-size:13px;color:var(--ink-dim);margin-bottom:6px}
+  input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:12px 14px;border-radius:9px;font-family:var(--sans);font-size:15px;outline:none;transition:border-color .15s;margin-bottom:18px}
+  input:focus{border-color:var(--accent)}
+  button{width:100%;background:var(--accent);color:#1a1206;border:none;padding:13px;border-radius:9px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s}
+  button:disabled{opacity:.5;cursor:default}
+  .err{color:#cf6a6a;font-size:13px;text-align:center;margin-top:14px;display:none}
+  .back{text-align:center;margin-top:20px;font-size:13px;color:var(--ink-dim)}
+  .back a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Vibe Knowledge</div>
+  <p class="sub">あなたのダッシュボードにログイン</p>
+  <div class="form">
+    <form id="loginForm" onsubmit="doLogin(event)">
+      <label for="username">ユーザー名</label>
+      <input id="username" name="username" type="text" autocomplete="username" required>
+      <label for="password">パスワード</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button type="submit" id="loginBtn">ログイン</button>
+      <div class="err" id="errMsg">ユーザー名またはパスワードが違います</div>
+    </form>
+  </div>
+  <div class="back"><a href="/">← 公開サイトへ戻る</a></div>
+</div>
+<script>
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('errMsg');
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'ログイン中...';
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+      }),
+    });
+    if (res.ok) {
+      window.location = '/app/dashboard.html';
+    } else {
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'ログイン';
+    }
+  } catch {
+    err.textContent = '通信エラー。もう一度お試しください。';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+  }
+}
+</script>
+</body>
+</html>
