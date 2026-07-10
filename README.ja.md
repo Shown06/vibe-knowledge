@@ -30,6 +30,11 @@
 ## 使い方
 
 ```bash
+# 0) リリースタグを指定してclone（mainを直接使わず、固定バージョンで導入する）
+git clone https://github.com/Shown06/vibe-knowledge
+cd vibe-knowledge
+git checkout v1.1.0
+
 # 1) インストール（スクリプト展開 + settings.json へ hook 登録。既存hookは壊さない）
 bash install.sh
 
@@ -39,6 +44,26 @@ bash install.sh
 # 3) 見る
 open view/index.html   # ブラウザで開く（カード / 用語集 / 概念マップ / 復習クイズ）
 ```
+
+### install.sh が実際にやること
+
+| ステップ | 内容 | 場所 |
+|---|---|---|
+| 1 | `capture.py`・`build_card.py`・`distill.sh`・`distill-worker.sh` をコピー | `~/.claude/hooks/vibe-knowledge/`（新規ファイル） |
+| 2 | データディレクトリを作成 | `~/.claude/vibe-knowledge/data/`（新規ファイル: `events.jsonl`・`.cursor`） |
+| 3 | `settings.json` をバックアップした上で編集 | `~/.claude/settings.json` → `PostToolUse` hook（`capture.py` 実行）と `Stop` hook（`distill.sh` 実行）を追加。**この直前に何を追加するかを表示した上で `[y/N]` の確認**を求める。バックアップ（`settings.json.bak-vk-<タイムスタンプ>`）は回答に関わらず先に作成される。ここで`N`と答えても他のステップは全て完了し、インストール自体は終わる（hookの有効化は後からでも可能・その手順を画面に表示する） |
+| 4 | 変更後の `settings.json` が正しい JSON か検証 | — |
+| 5 | 任意で MCP サーバーをビルド・登録 | `claude mcp add vibe-knowledge …` |
+
+いずれの段階でも外部への送信は発生しない（capture・distill・閲覧UIはすべてローカル実行）。
+
+Webサイト記載のように `curl` で直接インストーラーを取得する場合は、`main` ではなく**固定されたリリースタグ**を必ず使うこと:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh)
+```
+
+タグは改変されない固定参照のため、実行されるコードは常に該当[リリース](https://github.com/Shown06/vibe-knowledge/releases)の内容と一致し、後から中身が変わることはない。リリース一覧: https://github.com/Shown06/vibe-knowledge/releases
 
 ### 手動でいますぐ翻訳したいとき
 

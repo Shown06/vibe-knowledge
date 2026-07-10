@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 # Vibe Knowledge — Installer
+# Version: v1.1.0 (https://github.com/Shown06/vibe-knowledge/releases/tag/v1.1.0)
+#
+# This script is meant to be fetched from a pinned release tag, not from
+# `main` — a tag is immutable, so the code you're about to run is exactly
+# what shipped in the release above and won't silently change later:
+#   bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh)
+# See all releases: https://github.com/Shown06/vibe-knowledge/releases
+#
 # Copies scripts to ~/.claude (stable, survives Google Drive eviction)
 # Sets up data directory and registers hooks in settings.json
 # Optionally registers the MCP server with Claude Code
@@ -37,8 +45,40 @@ touch "$DATA/events.jsonl"
 [ -f "$DATA/.cursor" ] || echo 0 > "$DATA/.cursor"
 
 echo "[3/5] Registering hooks in settings.json (idempotent)"
-cp "$SETTINGS" "$SETTINGS.bak-vk-$(date '+%Y%m%d%H%M%S')"
-python3 - "$SETTINGS" <<'PY'
+SKIP_HOOKS=0
+echo ""
+echo "  This step will modify: $SETTINGS"
+echo "  It will add two hooks (only if not already present):"
+echo "    - PostToolUse: runs capture.py after Edit/Write/MultiEdit/Bash"
+echo "                   (logs what changed to ~/.claude/vibe-knowledge/data — no network calls)"
+echo "    - Stop:        runs distill.sh when a Claude Code session ends"
+echo "                   (turns the log into flashcards via a local haiku call)"
+echo "  Your current settings.json will be backed up first, to:"
+echo "    $SETTINGS.bak-vk-<timestamp>"
+echo ""
+if [ -t 0 ]; then
+  read -r -p "  Proceed with registering these hooks? [y/N] " REPLY
+  case "$REPLY" in
+    [yY]|[yY][eE][sS]) : ;;
+    *)
+      SKIP_HOOKS=1
+      echo "  Skipped. Vibe Knowledge is installed but will NOT capture sessions yet."
+      echo "  To enable it later, either re-run this installer and answer 'y',"
+      echo "  or manually add to $SETTINGS:"
+      echo '    "hooks": {'
+      echo '      "PostToolUse": [{"matcher": "Edit|Write|MultiEdit|Bash",'
+      echo '                       "hooks": [{"type": "command", "command": "~/.claude/hooks/vibe-knowledge/capture.py", "timeout": 5}]}],'
+      echo '      "Stop": [{"hooks": [{"type": "command", "command": "~/.claude/hooks/vibe-knowledge/distill.sh", "timeout": 8}]}]'
+      echo '    }'
+      ;;
+  esac
+else
+  echo "  (non-interactive shell detected — proceeding without prompt, as before)"
+fi
+
+if [ "$SKIP_HOOKS" -eq 0 ]; then
+  cp "$SETTINGS" "$SETTINGS.bak-vk-$(date '+%Y%m%d%H%M%S')"
+  python3 - "$SETTINGS" <<'PY'
 import json, sys
 p = sys.argv[1]
 with open(p, encoding="utf-8") as f:
@@ -65,6 +105,7 @@ else:
 with open(p, "w", encoding="utf-8") as f:
     json.dump(s, f, ensure_ascii=False, indent=2)
 PY
+fi
 
 echo "[4/5] Validating settings.json"
 python3 -c "import json;json.load(open('$SETTINGS'));print('  settings.json OK')"

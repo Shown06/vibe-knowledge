@@ -38,6 +38,7 @@ Open view/index.html → Review cards, quiz yourself, explore concept map
 ```bash
 git clone https://github.com/Shown06/vibe-knowledge
 cd vibe-knowledge
+git checkout v1.1.0   # pin to a released version (see Releases)
 bash install.sh
 ```
 
@@ -48,6 +49,26 @@ That's it. Start building with Claude Code. Cards accumulate automatically.
 ```bash
 open view/index.html
 ```
+
+### What install.sh actually does
+
+| Step | Action | Where |
+|---|---|---|
+| 1 | Copies `capture.py`, `build_card.py`, `distill.sh`, `distill-worker.sh` | `~/.claude/hooks/vibe-knowledge/` (new files) |
+| 2 | Creates the data directory | `~/.claude/vibe-knowledge/data/` (new files: `events.jsonl`, `.cursor`) |
+| 3 | Backs up, then edits your Claude Code settings | `~/.claude/settings.json` → adds a `PostToolUse` hook (runs `capture.py`) and a `Stop` hook (runs `distill.sh`). **You are asked `[y/N]` before this step runs**, and shown exactly what will be added. A timestamped backup (`settings.json.bak-vk-<timestamp>`) is made either way. Declining skips only this step — the rest of the install still completes, and you can enable it later (instructions are printed). |
+| 4 | Validates the resulting `settings.json` is still valid JSON | — |
+| 5 | Optionally builds and registers the MCP server | `claude mcp add vibe-knowledge …` |
+
+Nothing is sent off your machine at any point — capture, distill, and the viewer all run locally.
+
+If you fetch the installer directly instead of cloning (as the [website](https://vibeknowledge.dev) shows), always use a **pinned release tag**, not `main`:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh)
+```
+
+A tag is immutable — the code you run is exactly what's in that [release](https://github.com/Shown06/vibe-knowledge/releases), and won't change under you later. See all releases: https://github.com/Shown06/vibe-knowledge/releases
 
 ---
 

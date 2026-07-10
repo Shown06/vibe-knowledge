@@ -173,7 +173,7 @@ Q: 完全無料ですか？月額料金はかかりますか？
 A: Vibe Knowledge自体は永続無料・MITライセンスです。Claude ProまたはClaude Maxサブスクリプション（Anthropic提供）があれば追加費用ゼロで利用できます。
 
 Q: インストールにどのくらい時間がかかりますか？
-A: 30秒以内です。ターミナルで1コマンド実行するだけです: bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/main/install.sh)
+A: 30秒以内です。ターミナルで1コマンド実行するだけです: bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh)
 
 Q: データはどこに保存されますか？クラウドに送られますか？
 A: すべてのデータはローカルの~/.claude/vibe-knowledge/data/に保存されます。いかなる外部サーバーにも送信されません。
@@ -326,7 +326,7 @@ Vibe Knowledgeの最大の差別化: 「操作ゼロで自動蓄積」＋「実�
 - [公式サイト・LP](https://vibeknowledge.dev/) — インストール方法・機能説明・FAQ
 - [ダッシュボード](https://vibeknowledge.dev/app/) — 認証付き個人ダッシュボード（カード管理）
 - [GitHub リポジトリ](https://github.com/Shown06/vibe-knowledge) — ソースコード・README・インストールスクリプト
-- [インストールスクリプト](https://raw.githubusercontent.com/Shown06/vibe-knowledge/main/install.sh) — 直接実行可能なインストーラー
+- [インストールスクリプト](https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh) — 直接実行可能なインストーラー
 - [MITライセンス](https://github.com/Shown06/vibe-knowledge/blob/main/LICENSE) — ライセンス全文
 
 ---
