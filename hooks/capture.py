@@ -84,6 +84,13 @@ def main():
 
     # 秘密マスク: 機密ファイルは内容を一切残さず、本文中の鍵/トークンは伏字化
     fp = ti.get("file_path", "") or ti.get("notebook_path", "") or ""
+    # MultiEdit の場合は edits 配列内の各 file_path も検査する
+    if tool == "MultiEdit":
+        for edit in (ti.get("edits") or []):
+            efp = edit.get("file_path", "") or ""
+            if efp and SECRET_FILE_RE.search(os.path.basename(efp)):
+                fp = efp  # 1つでも機密ファイルがあれば detail を消す
+                break
     if fp and SECRET_FILE_RE.search(os.path.basename(fp)):
         detail = "(機密ファイルのため内容は記録しません)"
     summary = sanitize(summary)

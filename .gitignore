@@ -26,6 +26,20 @@ lp/.wrangler/
 # HANDOVER / local docs (keep out of OSS repo)
 HANDOVER.md
 GOAL.md
+tasks/
 
 # macOS
 .DS_Store
+
+# Environment files
+.env
+.env.*
+*.env.local
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log

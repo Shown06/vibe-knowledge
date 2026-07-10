@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vibe Knowledge">
+<link rel="apple-touch-icon" href="/app/apple-touch-icon.png">
 <title>Vibe Knowledge — ダッシュボード</title>
 <style>
   :root{
@@ -134,6 +138,12 @@
   .pcard .ptech .t{background:var(--panel2);border:1px solid var(--line);color:var(--ink-dim);
     font-size:12px;padding:3px 10px;border-radius:20px}
   .pcard .pnum{color:var(--accent);font-size:13px;margin-top:8px}
+  .pcard .ppurpose{color:var(--ink);font-size:14px;line-height:1.7;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pcard .ppurpose .src{color:var(--ink-dim);font-size:11px;margin-left:6px}
+  .pcard .pstack{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  .pcard .pstack .lbl{color:var(--accent);font-size:11.5px;letter-spacing:.03em;margin-right:2px}
+  .pcard .pstack .s{background:linear-gradient(180deg,#1c1a13,#181c16);border:1px solid #3a3320;color:var(--ink);
+    font-size:12px;padding:3px 10px;border-radius:20px}
   .mastery{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;border:1px solid var(--line)}
   .mastery .seg{height:100%}
   .mastery .new{background:#2a3038}
@@ -234,7 +244,7 @@
 
 <script>
 "use strict";
-let DATA = {cards:[], terms:{}};
+let DATA = {cards:[], terms:{}, profiles:[]};
 const $ = s => document.querySelector(s);
 const el = (t,c,txt)=>{const e=document.createElement(t); if(c)e.className=c; if(txt!=null)e.textContent=txt; return e;};
 const esc = s => (s==null?"":String(s));
@@ -271,25 +281,49 @@ function buildProjFilter(){
   wrap.appendChild(mk('すべて','',(DATA.cards||[]).length));
   projs.forEach(([p,n])=>wrap.appendChild(mk(p,p,n)));
 }
+// 同一用語の重複カードを1枚に集約(最新1件を代表として表示・件数とプロジェクト一覧をバッジ化)
+function groupCardsByTerm(list){
+  const map=new Map();
+  list.forEach(c=>{
+    const key=c.term;
+    if(!map.has(key)) map.set(key,{latest:c,count:0,projects:new Set()});
+    const g=map.get(key);
+    g.count++;
+    g.projects.add(c.project||'(不明)');
+    if((c.ts||'')>(g.latest.ts||'')) g.latest=c;
+  });
+  return Array.from(map.values());
+}
+let curCardList=[];
+let cardsShown=50;
+const CARD_PAGE=50;
 function renderCards(q){
-  const wrap=$('#cardList'); wrap.innerHTML='';
-  let list=(DATA.cards||[]).slice().reverse();
-  if(curProj) list=list.filter(c=>(c.project||'(不明)')===curProj);
+  let raw=(DATA.cards||[]).slice().reverse();
+  if(curProj) raw=raw.filter(c=>(c.project||'(不明)')===curProj);
   if(q){const t=q.toLowerCase();
-    list=list.filter(c=>JSON.stringify(c).toLowerCase().includes(t));}
-  $('#cardCount').textContent = list.length+' 枚';
-  if(!list.length){
+    raw=raw.filter(c=>JSON.stringify(c).toLowerCase().includes(t));}
+  curCardList=groupCardsByTerm(raw);
+  cardsShown=CARD_PAGE;
+  $('#cardCount').textContent = curCardList.length+' 枚'+(raw.length!==curCardList.length? '（同じ用語 '+raw.length+'件を集約）':'');
+  paintCardList();
+}
+function paintCardList(){
+  const wrap=$('#cardList'); wrap.innerHTML='';
+  if(!curCardList.length){
     wrap.appendChild(emptyBox('まだカードがありません',
       'いつもどおり実装すれば、ターンごとにここへ増えていきます。'));
     return;
   }
-  list.forEach(c=>{
+  curCardList.slice(0,cardsShown).forEach(g=>{
+    const c=g.latest;
     const card=el('div','card');
     const top=el('div','top');
     top.appendChild(el('span','term',c.term));
     if(c.reading) top.appendChild(el('span','reading',c.reading));
+    if(g.count>1) top.appendChild(el('span','badge','他'+(g.count-1)+'件'));
     const meta=el('div','meta');
-    meta.innerHTML = esc(c.project? c.project+'<br>':'') + esc((c.ts||'').slice(0,10));
+    const projText=Array.from(g.projects).join(', ');
+    meta.innerHTML = esc(projText? projText+'<br>':'') + esc((c.ts||'').slice(0,10));
     top.appendChild(meta);
     card.appendChild(top);
     if(c.easy) card.appendChild(el('p','easy',c.easy));
@@ -310,6 +344,12 @@ function renderCards(q){
     }
     wrap.appendChild(card);
   });
+  if(curCardList.length>cardsShown){
+    const more=el('button','btn','もっと見る（残り '+(curCardList.length-cardsShown)+'件）');
+    more.style.display='block'; more.style.margin='24px auto';
+    more.onclick=()=>{cardsShown+=CARD_PAGE; paintCardList();};
+    wrap.appendChild(more);
+  }
 }
 function emptyBox(big,sub){const e=el('div','empty');e.appendChild(el('div','big',big));e.appendChild(el('div',null,sub));return e;}
 $('#cardSearch').oninput=e=>renderCards(e.target.value.trim());
@@ -339,6 +379,10 @@ function renderGloss(q){
 }
 $('#glossSearch').oninput=e=>renderGloss(e.target.value.trim());
 
+function findProfile(projectName){
+  return (DATA.profiles||[]).find(p=>(p.keys||[]).some(k=>k===projectName));
+}
+function truncate(s,n){ if(!s) return s; s=String(s); return s.length>n ? s.slice(0,n).trim()+'…' : s; }
 function renderProjects(){
   const wrap=$('#projList'); if(!wrap) return; wrap.innerHTML='';
   const by={};
@@ -358,6 +402,20 @@ function renderProjects(){
     card.appendChild(ph);
     card.appendChild(el('div','pnum','カード '+info.cards.length+'枚 ・ 言葉 '+info.terms.size+'個'));
     if(top.length){const t=el('div','ptech');top.forEach(x=>t.appendChild(el('span','t',x)));card.appendChild(t);}
+    const profile = findProfile(p);
+    if(profile){
+      if(profile.purpose){
+        const pp=el('div','ppurpose');
+        pp.appendChild(document.createTextNode(truncate(profile.purpose,200)));
+        card.appendChild(pp);
+      }
+      if((profile.tech||[]).length){
+        const ps=el('div','pstack');
+        ps.appendChild(el('span','lbl','技術:'));
+        profile.tech.forEach(t=>ps.appendChild(el('span','s',t)));
+        card.appendChild(ps);
+      }
+    }
     card.onclick=()=>{curProj=p;document.querySelector('nav button[data-tab="cards"]').click();
       $('#cardSearch').value='';buildProjFilter();renderCards('');};
     wrap.appendChild(card);
@@ -546,6 +604,7 @@ async function bootApp() {
 
   DATA.cards = vkData.cards || [];
   DATA.terms = vkData.terms || {};
+  DATA.profiles = vkData.profiles || [];
   DATA.generated = vkData.generated || '—';
 
   termList.length = 0;

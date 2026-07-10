@@ -38,12 +38,13 @@ export async function onRequestGet({ request, env }) {
 }
 
 async function notify(env, email, ts) {
-  const notifyTo = env.NOTIFY_EMAIL || 'shown06@gmail.com';
+  if (!env.NOTIFY_EMAIL) return;
+  const notifyTo = env.NOTIFY_EMAIL;
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: 'Vibe Knowledge <onboarding@resend.dev>',
+      from: 'Vibe Knowledge <noreply@vibeknowledge.dev>',
       to: [notifyTo],
       subject: `[Vibe Knowledge] New waitlist signup: ${email}`,
       text: `New signup at ${ts}\n\nEmail: ${email}`

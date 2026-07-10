@@ -17,6 +17,19 @@ cp "$SRC/hooks/capture.py"          "$HOOK_DST/capture.py"
 cp "$SRC/hooks/build_card.py"       "$HOOK_DST/build_card.py"
 cp "$SRC/hooks/distill.sh"          "$HOOK_DST/distill.sh"
 cp "$SRC/hooks/distill-worker.sh"   "$HOOK_DST/distill-worker.sh"
+# VIEW/BACKUP のパスをこのマシンの SRC に合わせて書き換える(OSS利用者対応)
+python3 - "$HOOK_DST/distill-worker.sh" "$SRC" <<'PY'
+import sys, re
+dst, src = sys.argv[1], sys.argv[2]
+with open(dst, encoding="utf-8") as f:
+    txt = f.read()
+txt = re.sub(r'^VIEW="[^"]*"', f'VIEW="{src}/view"', txt, flags=re.MULTILINE)
+txt = re.sub(r'^BACKUP="[^"]*"', f'BACKUP="{src}/data-backup"', txt, flags=re.MULTILINE)
+with open(dst, "w", encoding="utf-8") as f:
+    f.write(txt)
+print(f"  VIEW  -> {src}/view")
+print(f"  BACKUP-> {src}/data-backup")
+PY
 chmod +x "$HOOK_DST"/*.py "$HOOK_DST"/*.sh
 
 echo "[2/5] Data directory: $DATA"

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Knowledge — 把 Claude Code 编程会话自动变成闪卡的开源工具</title>
+<meta name="description" content="每次用 Claude Code 写代码，Vibe Knowledge 都会自动把学到的概念整理成通俗易懂的闪卡。安装只需30秒、无需联网、完全免费的开源工具。支持 MCP Server，可以在会话中直接检索自己积累的知识。">
+<meta name="keywords" content="Vibe Knowledge,AI编程学习,Claude Code,闪卡,间隔重复,MCP server,开源工具,编程学习,第二大脑,自动知识管理,vibe coding,AI辅助编程,SM-2算法,编程初学者,开发者工具">
+
+<!-- OGP -->
+<meta property="og:title" content="Vibe Knowledge — 把 Claude Code 会话自动变成闪卡">
+<meta property="og:description" content="每次用 Claude Code 编程，都会自动生成通俗易懂的闪卡。安装30秒、完全免费、支持MCP的开源工具。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vibeknowledge.dev/zh/">
+<meta property="og:site_name" content="Vibe Knowledge">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://vibeknowledge.dev/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vibe Knowledge - 把 Claude Code 会话自动变成闪卡的开源工具">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vibe Knowledge — 把 Claude Code 会话自动变成闪卡">
+<meta name="twitter:description" content="每次用 Claude Code 编程，都会自动生成通俗易懂的闪卡。安装30秒、完全免费、支持MCP的开源工具。">
+<meta name="twitter:image" content="https://vibeknowledge.dev/og-image.png">
+
+<link rel="canonical" href="https://vibeknowledge.dev/zh/">
+
+<!-- hreflang alternates -->
+<link rel="alternate" hreflang="en" href="https://vibeknowledge.dev/">
+<link rel="alternate" hreflang="ja" href="https://vibeknowledge.dev/ja/">
+<link rel="alternate" hreflang="zh-CN" href="https://vibeknowledge.dev/zh/">
+<link rel="alternate" hreflang="x-default" href="https://vibeknowledge.dev/">
+
+<!-- JSON-LD: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Vibe Knowledge",
+  "alternateName": "バイブナレッジ",
+  "description": "一款开源工具，能自动把 Claude Code 的编程会话转换成闪卡。安装只需30秒，无需联网，完全免费。作为 MCP Server 使用时，可以在会话中直接检索自己的知识库。",
+  "url": "https://vibeknowledge.dev/zh/",
+  "applicationCategory": "DeveloperApplication",
+  "applicationSubCategory": "Learning & Education",
+  "operatingSystem": "macOS, Linux, Windows (WSL)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "license": "https://opensource.org/licenses/MIT",
+  "codeRepository": "https://github.com/Shown06/vibe-knowledge",
+  "downloadUrl": "https://raw.githubusercontent.com/Shown06/vibe-knowledge/main/install.sh",
+  "installUrl": "https://vibeknowledge.dev/zh/",
+  "softwareVersion": "1.0",
+  "releaseNotes": "自动生成闪卡・间隔重复测验・MCP Server・概念图・按项目整理",
+  "keywords": "Claude Code, 闪卡, AI学习, vibe coding, MCP server, 开源",
+  "inLanguage": ["zh", "en"],
+  "featureList": [
+    "自动把 Claude Code 会话变成闪卡",
+    "内置间隔重复（SM-2 算法）测验",
+    "作为 MCP Server 从 Claude Code 中检索知识",
+    "力导向（force-directed）概念图",
+    "按项目自动分类整理闪卡",
+    "自动屏蔽 API 密钥等敏感信息",
+    "完全本地运行、无需联网",
+    "支持离线使用"
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "Vibe Knowledge OSS Project",
+    "url": "https://github.com/Shown06/vibe-knowledge"
+  }
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --ink: #1a1a18;
+    --mid: #6b6b67;
+    --accent: #c0392b;
+    --border: #d9d6d0;
+    --panel: #ffffff;
+    --code-bg: #ede9e3;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Georgia', 'Times New Roman', 'PingFang SC', 'Microsoft YaHei', serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4vw;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .app-link {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .nav-links .app-link:hover { opacity: 0.85; color: var(--bg); }
+  .lang-switch {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--mid);
+  }
+  .lang-switch a { color: var(--mid); text-decoration: none; }
+  .lang-switch a:hover { color: var(--ink); }
+  .lang-switch .current { color: var(--ink); font-weight: 700; }
+
+  .hero {
+    padding: 8rem 4vw 6rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--mid);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .install-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 560px;
+  }
+  .install-cmd {
+    background: var(--ink);
+    color: #e8e4da;
+    padding: 1.1rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: all;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .install-cmd span { color: #9aa0ab; font-size: 0.75rem; margin-left: auto; flex-shrink: 0; font-family: 'Helvetica Neue', sans-serif; letter-spacing: 0.04em; }
+  .install-note {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--mid);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn-primary {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-secondary {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    padding: 0.85rem 1.8rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .section {
+    padding: 6rem 4vw;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 3rem;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4vw;
+  }
+  .step-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .step h3 {
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .step p {
+    font-size: 0.9rem;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+
+  .card-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    align-items: center;
+  }
+  .card-preview-text h2 {
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+  .card-preview-text p {
+    font-size: 0.95rem;
+    color: var(--mid);
+    line-height: 1.85;
+    margin-bottom: 1rem;
+  }
+
+  .sample-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 2rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .card-term {
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+  .card-reading {
+    font-size: 0.75rem;
+    color: var(--mid);
+    margin-bottom: 1.5rem;
+  }
+  .card-row {
+    border-top: 1px solid var(--border);
+    padding: 0.85rem 0;
+  }
+  .card-row label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.4rem;
+  }
+  .card-row span { font-size: 0.9rem; line-height: 1.7; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4vw;
+  }
+  .feature-icon {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.75rem;
+  }
+  .feature h3 {
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+  .feature p {
+    font-size: 0.87rem;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+  .feature code { font-family: monospace; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
+
+  .privacy-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    align-items: start;
+  }
+  .privacy-box h2 {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+  .privacy-box p { font-size: 0.95rem; color: var(--mid); line-height: 1.85; margin-bottom: 1rem; }
+  .privacy-list { list-style: none; padding: 0; margin: 0; }
+  .privacy-list li {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--border);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.87rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .privacy-list li code { font-family: monospace; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
+
+  .cta-section {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 6rem 4vw;
+    text-align: center;
+  }
+  .cta-section h2 {
+    font-size: clamp(1.9rem, 4vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .cta-section p {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    color: #9aa0ab;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-light {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-light:hover { opacity: 0.88; }
+  .btn-outline-light {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--bg);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 0.85rem 1.8rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline-light:hover { border-color: rgba(255,255,255,0.7); }
+
+  footer {
+    padding: 2.5rem 4vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.75rem;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--mid); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--ink); }
+
+  @media (max-width: 768px) {
+    .steps { grid-template-columns: 1fr; gap: 3rem; }
+    .card-preview { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .privacy-box { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- noscript: 面向爬虫・AI爬虫的静态文本层 -->
+<noscript>
+<div style="font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.8; color: #1a1a18;">
+  <h1>Vibe Knowledge — 把 Claude Code 编程会话自动变成闪卡的开源工具</h1>
+  <p>Vibe Knowledge 是一款开源工具，能自动把 AI 辅助编程（vibe coding）过程中的实现思路、设计判断和踩坑经验，转换成学习闪卡并持续积累。它会从 Claude Code、Cursor 等 AI 编程助手的会话记录中自动提取知识，并用间隔重复（SM-2 算法）帮你把这些内容真正记住。完全免费、MIT 协议、无需联网、支持离线使用。</p>
+  <p>用 AI 快速开发的同时，很容易出现"学过的东西转头就忘""同一个问题反复问 AI"的情况。Vibe Knowledge 正是为了解决这个问题而生，目前已被中国大陆、香港、台湾及全球各地的工程师、独立开发者和正在学习编程的人广泛使用。</p>
+
+  <h2>主要功能</h2>
+  <ul>
+    <li>自动把 Claude Code 会话变成闪卡（全程无需手动操作）</li>
+    <li>内置间隔重复（SM-2 算法）测验 — 对抗遗忘曲线</li>
+    <li>支持 MCP Server — 可在 Claude Code 会话中直接检索自己的知识库</li>
+    <li>力导向（force-directed）概念图，直观展示知识之间的联系</li>
+    <li>按项目自动分类整理闪卡</li>
+    <li>自动屏蔽 API 密钥等敏感信息（隐私保护）</li>
+    <li>完全本地运行、无需联网、支持离线使用</li>
+    <li>仪表盘共6个标签页: 闪卡 / 项目 / 术语表 / 概念图 / 测验 / 复盘</li>
+  </ul>
+
+  <h2>如何安装</h2>
+  <p>只需要在终端运行一行命令（需要先安装 Claude Code）:</p>
+  <pre>bash &lt;(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/main/install.sh)</pre>
+  <p>安装用时不到30秒。需要 Claude Pro 或 Claude Max 订阅。无需额外配置，macOS、Linux、Windows(WSL) 下的所有项目都会自动生效。</p>
+
+  <h2>闪卡是怎么生成的</h2>
+  <p>每次会话结束后，Claude Haiku 会在后台自动提取本次涉及的概念，并生成闪卡。每张卡片包含"一句话总结""为什么这么写""生活化的类比"三部分。持续用一周左右，通常就能积累100张以上的闪卡。</p>
+
+  <h2>隐私与安全</h2>
+  <p>所有数据都保存在本地的 ~/.claude/vibe-knowledge/data/ 目录下。API 密钥（如 sk-...、ghp_...）、Bearer token、.env 文件内容、密钥文件（.pem/.key）在记录前都会被自动屏蔽。绝不会上传到任何云端服务器。源码在 GitHub 上完全公开，可自行审计。企业内部代码同样可以放心使用。</p>
+
+  <h2>作为 MCP Server 使用</h2>
+  <p>把 Vibe Knowledge 配置成 MCP Server 后，就能在 Claude Code 会话中直接提问，比如"我之前学过 webhook 的哪些知识？"。过去项目里的设计决策和踩坑经验，都能在当前会话里立刻查到，不用再重复问 AI。</p>
+
+  <h2>支持的环境</h2>
+  <p>macOS（Apple Silicon / Intel）、Linux（桌面与服务器）、Windows（通过 WSL）。需要 Claude Pro 或 Claude Max 订阅，无需预装 Node.js、Python 等其他依赖。</p>
+
+  <h2>适合谁用</h2>
+  <p>适合用 Claude Code、Cursor 等工具进行 AI 辅助编程的开发者，正在学习编程的人，需要向客户解释技术方案的自由职业工程师，业余时间做副业开发的人，准备技术面试的求职者，以及希望在团队内沉淀知识的工程师。</p>
+
+  <h2>费用</h2>
+  <p>Vibe Knowledge 本身完全免费、永久免费。唯一需要的是 Claude Pro（每月20美元）或 Claude Max（每月100美元）订阅，MIT 协议下可自由用于商业用途、二次开发和修改。</p>
+
+  <p><a href="https://github.com/Shown06/vibe-knowledge">在 GitHub 上查看源码（MIT 协议）</a> | <a href="https://vibeknowledge.dev/app/">打开仪表盘</a></p>
+</div>
+</noscript>
+
+<nav>
+  <a href="/zh/" class="nav-logo">Vibe Knowledge</a>
+  <div class="nav-links">
+    <a href="https://github.com/Shown06/vibe-knowledge">GitHub</a>
+    <span class="lang-switch"><a href="/">EN</a> | <a href="/ja/">日本語</a> | <span class="current">中文</span></span>
+    <a href="/app/" class="app-link">打开仪表盘 →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="hero-tag">免费 & 开源 — MIT 协议</p>
+  <h1>你写下的每一行代码，<br><em>都会变成知识。</em></h1>
+  <p class="hero-sub">
+    每次用 Claude Code 写代码，Vibe Knowledge 都会在后台默默把发生的一切，转换成通俗易懂的闪卡。
+    不需要额外操作，也不用再打开一个新应用。
+  </p>
+
+  <div class="install-block">
+    <button class="install-cmd" onclick="copyInstall(this)">
+      bash &lt;(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/main/install.sh)
+      <span id="copy-label">复制</span>
+    </button>
+    <p class="install-note">需要 Claude Code。安装 hooks 和 MCP server 只需不到30秒，无需注册云端账号。</p>
+  </div>
+
+  <div class="hero-cta">
+    <a href="https://github.com/Shown06/vibe-knowledge" class="btn-primary">在 GitHub 上查看</a>
+    <a href="/app/" class="btn-secondary">打开仪表盘</a>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="section">
+  <p class="section-label">使用流程</p>
+  <div class="steps">
+    <div class="step">
+      <p class="step-num">01</p>
+      <h3>照常开发</h3>
+      <p>像平时一样用 Claude Code 写代码就行。Vibe Knowledge 会自动挂钩到每一次 Edit、Write、Bash 调用上，不需要针对每个项目单独配置。</p>
+    </div>
+    <div class="step">
+      <p class="step-num">02</p>
+      <h3>闪卡悄悄生成</h3>
+      <p>每次会话结束后，后台程序会问 Claude Haiku："这次我们碰到了什么概念，用大白话怎么说？"闪卡就这样诞生了。整个过程完全不会拖慢你的开发速度。</p>
+    </div>
+    <div class="step">
+      <p class="step-num">03</p>
+      <h3>复习、重复、记住</h3>
+      <p>按项目浏览、搜索术语表、查看概念图，或者做一次间隔重复测验。用自己的话讲出来，谈客户的时候也不会卡壳。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="section">
+  <p class="section-label">闪卡长什么样</p>
+  <div class="card-preview">
+    <div class="card-preview-text">
+      <h2>永远说人话，<br>不说术语。</h2>
+      <p>每张卡片都会记录术语、使用原因和一个生活化的类比 — 全部自动从你实际写的代码中提取。</p>
+      <p>写一周代码之后，你就会拥有100多张卡片，每一张都来自你自己的项目。</p>
+    </div>
+    <div class="sample-card">
+      <div class="card-term">Webhook</div>
+      <div class="card-reading">网络钩子</div>
+      <div class="card-row">
+        <label>一句话说清楚</label>
+        <span>在某件事发生的瞬间，自动通知另一个系统的方式。</span>
+      </div>
+      <div class="card-row">
+        <label>为什么用它</label>
+        <span>在 Stripe 完成支付的那一刻通知服务器 — 不需要轮询。</span>
+      </div>
+      <div class="card-row">
+        <label>打个比方</label>
+        <span>就像门铃。有事发生就按一下，家里有人就会来开门。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="section">
+  <p class="section-label">都包含什么</p>
+  <div class="features-grid">
+    <div class="feature">
+      <p class="feature-icon">自动采集</p>
+      <h3>悄悄挂钩后台</h3>
+      <p>只需安装一次，所有项目都能用。采集用的 hook 以毫秒级运行，从不调用 AI — 采集这一步零延迟、零成本。</p>
+    </div>
+    <div class="feature">
+      <p class="feature-icon">隐私优先</p>
+      <h3>敏感信息不会离开你的电脑</h3>
+      <p>API 密钥、token、<code>.env</code> 文件内容，在存储前都会被自动屏蔽。像 <code>sk-...</code>、<code>ghp_...</code>、<code>Bearer ...</code> 这样的模式，在采集的瞬间就会被打码。</p>
+    </div>
+    <div class="feature">
+      <p class="feature-icon">SM-2 测验</p>
+      <h3>内置间隔重复</h3>
+      <p>内置了基于遗忘曲线的测验。给自己打分（"忘了 / 有点模糊 / 记住了"），算法会自动安排下一次复习时间。</p>
+    </div>
+    <div class="feature">
+      <p class="feature-icon">概念图</p>
+      <h3>看清知识之间的联系</h3>
+      <p>把你最常用的40个术语，用力导向图直观呈现。发现知识的聚类，找出理解薄弱的地方，看着自己的认知慢慢生长。</p>
+    </div>
+    <div class="feature">
+      <p class="feature-icon">MCP Server</p>
+      <h3>在 Claude Code 里直接查自己的知识</h3>
+      <p>添加为 MCP Server 后，可以在会话里直接问"我学过哪些关于 webhook 的知识？"。积累的闪卡，变成一个可检索的第二大脑。</p>
+    </div>
+    <div class="feature">
+      <p class="feature-icon">本地查看器</p>
+      <h3>离线可用，零依赖</h3>
+      <p>用浏览器打开 <code>view/index.html</code> 就行，不需要服务器、打包工具，也不需要联网。所有数据都保存在 <code>~/.claude/vibe-knowledge/data/</code> 里。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="section">
+  <div class="privacy-box">
+    <div>
+      <h2>你的代码，<br>始终留在你自己的电脑上。</h2>
+      <p>所有数据都保存在 <code>~/.claude/vibe-knowledge/data/</code>，不会传输到任何服务器。</p>
+      <p>闪卡生成（distill）过程不需要你的 <code>ANTHROPIC_API_KEY</code> — 用的是 Claude Pro 订阅额度，不会产生额外的 API 调用费用。</p>
+    </div>
+    <ul class="privacy-list">
+      <li>API 密钥和 token 在存储前都会被替换成 <code>[secret masked]</code></li>
+      <li><code>.env</code>、<code>*.pem</code>、<code>*.key</code> 文件的内容不会被记录</li>
+      <li><code>password=</code>、<code>Bearer ...</code>、JWT token 会被自动屏蔽</li>
+      <li>开源 — 采集逻辑的每一行代码都可以在 GitHub 上审查</li>
+      <li>没有埋点、没有遥测、不需要注册账号</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>开始编程，<br>开始记住。</h2>
+  <p>永久免费，开源。装一次，持续学。</p>
+  <div class="cta-btns">
+    <a href="https://github.com/Shown06/vibe-knowledge" class="btn-light">去 GitHub 点个 Star</a>
+    <a href="/app/" class="btn-outline-light">打开仪表盘</a>
+  </div>
+</section>
+
+<footer>
+  <span>Vibe Knowledge — 开源 · MIT 协议</span>
+  <div class="footer-links">
+    <a href="https://github.com/Shown06/vibe-knowledge">GitHub</a>
+    <a href="https://github.com/Shown06/vibe-knowledge/blob/main/LICENSE">协议</a>
+    <a href="/app/">仪表盘</a>
+  </div>
+</footer>
+
+<script>
+function copyInstall(btn) {
+  const cmd = btn.textContent.replace('复制', '').replace('已复制', '').trim();
+  navigator.clipboard.writeText(cmd).then(() => {
+    const lbl = document.getElementById('copy-label');
+    lbl.textContent = '已复制';
+    setTimeout(() => { lbl.textContent = '复制'; }, 2000);
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>
