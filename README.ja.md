@@ -10,7 +10,7 @@
 | 層 | 役割 | 実体 | コスト |
 |---|---|---|---|
 | ① 捕捉 | 実装イベント(Edit/Write/Bash 等)を軽量ログ化 | `capture.py`（PostToolUse hook） | ゼロ（claude を呼ばない） |
-| ② 翻訳 | ターン区切りで「中1向けカード」に変換 | `distill.sh` → `distill-worker.sh` → `build_card.py`（Stop hook・裏で `claude -p` haiku） | サブスク内（`ANTHROPIC_API_KEY` を外して実行） |
+| ② 翻訳 | ターン区切りで「中1向けカード」に変換 | `distill.sh` → `distill-worker.sh` → `build_card.py`（Stop hook・裏で `claude -p` haiku） | デフォルト=サブスク内（`ANTHROPIC_API_KEY` を外して実行）。`config.json` の `use_api_key` で従量課金APIに切替可 |
 | ③ 蓄積・復習 | カード／用語集／概念マップ／復習クイズ | `view/index.html`（バニラJS・間隔反復は localStorage） | ゼロ |
 
 - **実装イベントが無いターンでは `claude` を呼ばない**（雑談ターンで課金しない）。
@@ -65,6 +65,24 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/
 
 タグは改変されない固定参照のため、実行されるコードは常に該当[リリース](https://github.com/Shown06/vibe-knowledge/releases)の内容と一致し、後から中身が変わることはない。リリース一覧: https://github.com/Shown06/vibe-knowledge/releases
 
+### 設定（config.json）
+
+`~/.claude/vibe-knowledge/config.json`（`install.sh` が安全なデフォルト値で自動作成。再インストール不要でいつでも直接編集可）:
+
+```json
+{
+  "exclude_paths": [],
+  "use_api_key": false
+}
+```
+
+| キー | デフォルト | 内容 |
+|---|---|---|
+| `exclude_paths` | `[]` | パスの一部文字列のリスト。作業ディレクトリ(cwd)がここに含まれるプロジェクトは `capture.py` が即座に何も記録せず終了する。顧客案件・NDA案件など、そもそも知識カード化したくないプロジェクトを丸ごと除外できる。例: `"/Clients/AcmeCorp"` を追加するとその配下は一切捕捉されない。 |
+| `use_api_key` | `false` | デフォルトでは、あなたの **Claude Pro/Max サブスクリプション枠**を使って裏でカード生成を行う（1ターンにつき `claude -p` を1回程度呼ぶ）。サブスクではなく従量課金の API キーを使いたい場合は `true` にし、環境変数 `ANTHROPIC_API_KEY` を設定する。 |
+
+`config.json` が存在しない、または壊れている場合はどちらも安全側のデフォルト（全プロジェクトで捕捉継続・サブスク枠を使用）にフォールバックする。設定ファイルの破損が捕捉を止めることはない。
+
 ### 手動でいますぐ翻訳したいとき
 
 ```bash
@@ -99,6 +117,7 @@ bash ~/.claude/hooks/vibe-knowledge/distill-worker.sh
 ## 安全・制限（正直な線引き）
 
 - **秘密マスク**: `.env`／`*.key`／`*.pem`／`local.properties` などの機密ファイルは内容を一切記録しない。本文中の API キー・トークン・`password=`／`Bearer …`／秘密鍵は `capture.py` が `[秘密マスク]` に伏字化してから保存する（events・cards に平文の鍵を残さない／haiku にも送らない）。
+- **プロジェクト単位の除外**: 顧客案件・NDA案件はそもそも記録自体を止めたい場合、`config.json` の `exclude_paths` にパスの一部を追記すれば、そのプロジェクトは一切捕捉されなくなる（→「設定（config.json）」参照）。
 - **1ターン150件まで**: 1ターンに150を超える実装イベントがあると、新しい順150件だけを翻訳対象にする（消化不良を避ける意図的な上限。超過分は二度目には拾わない）。
 - **events.jsonl は追記式**: 長期で肥大する。気になったら `data/events.jsonl` を空にして `data/.cursor` を `0` に戻せばリセットできる（カード自体は `cards.jsonl` に残る）。
 - **1 distill = 最大4枚**: 毎ターン最大4枚ずつ貯める設計（中1が1日に覚える量として適量）。

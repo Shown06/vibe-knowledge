@@ -44,6 +44,27 @@ echo "[2/5] Data directory: $DATA"
 touch "$DATA/events.jsonl"
 [ -f "$DATA/.cursor" ] || echo 0 > "$DATA/.cursor"
 
+CONFIG="$HOME/.claude/vibe-knowledge/config.json"
+if [ ! -f "$CONFIG" ]; then
+  cat > "$CONFIG" <<'JSON'
+{
+  "exclude_paths": [],
+  "use_api_key": false
+}
+JSON
+  echo "  + config.json created: $CONFIG"
+else
+  echo "  = config.json already exists (left untouched)"
+fi
+echo "  Tip: to stop capturing a specific project (e.g. client/NDA work), add a"
+echo "       substring of its path to exclude_paths in config.json."
+echo ""
+echo "  [重要] このツールは今後、Claude Codeでの作業ごとに、あなたのClaude Pro/Max"
+echo "  サブスクリプション枠を使って裏でカード生成を行います(既定動作)。"
+echo "  This runs in the background on every Claude Code turn using your Claude"
+echo "  Pro/Max subscription quota by default. To use metered API billing instead,"
+echo "  set use_api_key to true in config.json and export ANTHROPIC_API_KEY."
+
 echo "[3/5] Registering hooks in settings.json (idempotent)"
 SKIP_HOOKS=0
 echo ""

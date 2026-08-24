@@ -1,29 +1,42 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Knowledge — Claude Codeのセッションを自動でフラッシュカード化するOSSツール</title>
-<meta name="description" content="Claude Codeでコーディングするたびに、学んだ概念を自動でフラッシュカード化。インストール30秒・クラウド不要・完全無料のOSSツール。MCPサーバー対応で、セッション内から自分の知識を検索できます。">
-<meta name="keywords" content="バイブナレッジ,vibe coding,AI 学習,コーディング学習,プログラミング 初心者,Claude Code,フラッシュカード,MCP server,OSS,知識管理,自動カード化,vibe knowledge,AIコーディング,間隔反復,スペースドリピティション,second brain,セカンドブレイン,無料開発ツール,プログラミング学習,Anthropic,自動フラッシュカード,Cursor学習,AI開発者ツール,GitHub OSS,Claude Pro活用,AIペアプログラミング,開発効率化,コード理解,エンジニア学習支援,SM-2アルゴリズム">
+<title>Vibe Knowledge — Turn Claude Code Sessions Into Flashcards Automatically (Free OSS)</title>
+<meta name="description" content="Turn every Claude Code session into plain-language flashcards automatically. Free MIT-licensed OSS, fully local, MCP server built in, installs in 30 seconds.">
+<meta name="keywords" content="vibe knowledge,vibe-knowledge,VibeKnowledge,Claude Code flashcards,AI coding flashcards,coding flashcards,developer flashcards,spaced repetition for developers,SM-2 algorithm,MCP server,Claude Code MCP server,open source learning tool,free flashcard app,automatic flashcard generation,coding knowledge base,developer knowledge base,session to flashcards,learn while coding,AI pair programming learning,Claude Code hooks,Anthropic Claude Code,MIT licensed developer tool,offline flashcards,local-first knowledge tool,privacy-first developer tool,concept map for code,force-directed concept map,glossary generator,project based flashcards,self hosted knowledge base,vibe coding,vibecoding,vibe-coding,vibe coder,vibe knowledge dev,vibeknowledge.dev,vibe knowledge github,vibe knowledge oss,vibe knowledge claude,claude code flash cards,flash cards,flashcard,flash-card,spaced-repetition,spaced repetition software,SRS,SM2,SuperMemo 2,MCP,Model Context Protocol,model-context-protocol,claudecode,claude-code,Claude Pro,Claude Max,CLI tool,command line tool,terminal tool,dev tool,devtool,OSS,open-source,second brain,personal knowledge management,PKM,zettelkasten for code,note taking for developers,engineering notebook,learning log,developer memory,retention tool,study tool for programmers,active recall,forgetting curve,Ebbinghaus forgetting curve,long term retention,knowledge retention,microlearning,Anki alternative,Obsidian alternative,Notion alternative,RemNote alternative,Mochi alternative,SuperMemo alternative,automated note taking,AI generated notes,AI summarizer for code,code documentation from sessions,engineering knowledge sharing,onboarding knowledge base,technical glossary,concept graph,macOS developer tool,Linux developer tool,Windows WSL,WSL2,Apple Silicon,Intel Mac,Ubuntu,Debian,zsh,bash,JSONL,JSON Lines,local storage,no cloud,no account required,no API key required,GitHub OSS,GitHub repository,pull request welcome,self hosting,remote developer,freelance developer,indie hacker,side project,solo founder,bootcamp student,computer science student,junior developer,senior engineer,engineering team,I forget what I learned with AI,AI wrote the code but I do not understand it,asking Claude the same question again,copy paste coding without understanding,how to remember what AI taught me,learning while using AI coding tools,explain technical concepts to clients,prepare for technical interview,keep track of design decisions,document why we chose this approach,stop repeating the same mistakes,retain knowledge from AI sessions,AI coding makes me lazy,understand the code AI generated,build real skills with AI,avoid becoming dependent on AI,review what I built this week,turn work into learning,knowledge disappears after the session,no time to write notes,automatic documentation of my work,search my own past projects,why did I write this code,what does webhook mean,what is idempotency,learn architecture patterns from my own code,measure my learning progress,quiz myself on my own codebase,interview prep from real projects,explain my stack in a sales meeting">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="Shown06">
+<meta name="theme-color" content="#c0392b">
+<meta name="color-scheme" content="light">
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/touch-icon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
 
 <!-- OGP -->
-<meta property="og:title" content="Vibe Knowledge — Claude Codeセッションを自動フラッシュカード化">
-<meta property="og:description" content="Claude Codeでコーディングするたびに学んだ概念を自動でフラッシュカード化。インストール30秒・完全無料・MCP対応OSS。">
+<meta property="og:title" content="Vibe Knowledge — Your Claude Code sessions, turned into knowledge">
+<meta property="og:description" content="Every time you build with Claude Code, Vibe Knowledge silently turns what happened into flashcards. Free, open source, local-only, MCP-ready.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vibeknowledge.dev/">
 <meta property="og:site_name" content="Vibe Knowledge">
-<meta property="og:locale" content="ja_JP">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:image" content="https://vibeknowledge.dev/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Vibe Knowledge - Claude Codeセッションを自動フラッシュカード化するOSSツール">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Vibe Knowledge - open source tool that turns Claude Code sessions into flashcards">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vibe Knowledge — Claude Codeセッションを自動フラッシュカード化">
-<meta name="twitter:description" content="Claude Codeでコーディングするたびに学んだ概念を自動でフラッシュカード化。インストール30秒・完全無料・MCP対応OSS。">
+<meta name="twitter:title" content="Vibe Knowledge — Your Claude Code sessions, turned into knowledge">
+<meta name="twitter:description" content="Every time you build with Claude Code, Vibe Knowledge silently turns what happened into flashcards. Free, open source, local-only, MCP-ready.">
 <meta name="twitter:image" content="https://vibeknowledge.dev/og-image.png">
+<meta name="twitter:image:alt" content="Vibe Knowledge - open source tool that turns Claude Code sessions into flashcards">
 
 <link rel="canonical" href="https://vibeknowledge.dev/">
 
@@ -33,14 +46,81 @@
 <link rel="alternate" hreflang="zh-CN" href="https://vibeknowledge.dev/zh/">
 <link rel="alternate" hreflang="x-default" href="https://vibeknowledge.dev/">
 
-<!-- JSON-LD: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://vibeknowledge.dev/#website",
+  "name": "Vibe Knowledge",
+  "alternateName": [
+    "バイブナレッジ",
+    "vibe-knowledge",
+    "VibeKnowledge"
+  ],
+  "url": "https://vibeknowledge.dev/",
+  "inLanguage": "en",
+  "description": "Turn every Claude Code session into plain-language flashcards automatically. Free MIT-licensed OSS, fully local, MCP server built in, installs in 30 seconds.",
+  "publisher": {
+    "@id": "https://vibeknowledge.dev/#organization"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://vibeknowledge.dev/#organization",
+  "name": "Vibe Knowledge",
+  "url": "https://vibeknowledge.dev/",
+  "logo": "https://vibeknowledge.dev/icon-512.png",
+  "description": "Open-source tool that automatically converts Claude Code coding sessions into flashcards. 30-second install, no cloud, completely free. Works as an MCP server so you can search your own knowledge base from inside a session.",
+  "sameAs": [
+    "https://github.com/Shown06/vibe-knowledge",
+    "https://github.com/Shown06"
+  ],
+  "foundingDate": "2026-06-11"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Brand",
+  "@id": "https://vibeknowledge.dev/#brand",
+  "name": "Vibe Knowledge",
+  "alternateName": [
+    "バイブナレッジ",
+    "VibeKnowledge"
+  ],
+  "url": "https://vibeknowledge.dev/",
+  "logo": "https://vibeknowledge.dev/icon-512.png",
+  "slogan": "Your coding sessions. Turned into knowledge."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://vibeknowledge.dev/#developer",
+  "name": "Shown06",
+  "url": "https://github.com/Shown06",
+  "sameAs": [
+    "https://github.com/Shown06"
+  ],
+  "jobTitle": "Software Developer"
+}
+</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
+  "@id": "https://vibeknowledge.dev/#software",
   "name": "Vibe Knowledge",
   "alternateName": "バイブナレッジ",
-  "description": "Claude Codeでのコーディングセッションを自動でフラッシュカードに変換するオープンソースツール。インストール30秒、クラウド不要、完全無料。MCPサーバーとして利用することで、セッション内から自分の知識ベースを検索できる。",
+  "description": "Open-source tool that automatically converts Claude Code coding sessions into flashcards. 30-second install, no cloud, completely free. Works as an MCP server so you can search your own knowledge base from inside a session.",
   "url": "https://vibeknowledge.dev/",
   "applicationCategory": "DeveloperApplication",
   "applicationSubCategory": "Learning & Education",
@@ -48,494 +128,510 @@
   "offers": {
     "@type": "Offer",
     "price": "0",
-    "priceCurrency": "JPY"
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://vibeknowledge.dev/"
   },
   "license": "https://opensource.org/licenses/MIT",
   "codeRepository": "https://github.com/Shown06/vibe-knowledge",
   "downloadUrl": "https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh",
   "installUrl": "https://vibeknowledge.dev/",
-  "softwareVersion": "1.0",
-  "releaseNotes": "自動カード生成・間隔反復クイズ・MCPサーバー・概念マップ・プロジェクト別整理",
-  "keywords": "Claude Code, フラッシュカード, AI学習, vibe coding, MCP server, OSS",
-  "inLanguage": ["ja", "en"],
-  "featureList": [
-    "Claude Codeセッションの自動フラッシュカード化",
-    "間隔反復（SM-2アルゴリズム）クイズ",
-    "MCPサーバーとしてClaude Codeから知識を検索",
-    "Force-directed概念マップ",
-    "プロジェクト別カード整理",
-    "APIキー・シークレットの自動マスキング",
-    "完全ローカル動作・クラウド不要",
-    "オフライン動作対応"
-  ],
+  "softwareVersion": "1.1.0",
+  "isAccessibleForFree": true,
   "author": {
-    "@type": "Organization",
-    "name": "Vibe Knowledge OSS Project",
-    "url": "https://github.com/Shown06/vibe-knowledge"
-  }
+    "@id": "https://vibeknowledge.dev/#developer"
+  },
+  "publisher": {
+    "@id": "https://vibeknowledge.dev/#organization"
+  },
+  "brand": {
+    "@id": "https://vibeknowledge.dev/#brand"
+  },
+  "inLanguage": [
+    "en",
+    "ja",
+    "zh-CN"
+  ]
 }
 </script>
 
-<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://vibeknowledge.dev/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Vibe Knowledge",
+      "item": "https://vibeknowledge.dev/"
+    }
+  ]
+}
+</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": "https://vibeknowledge.dev/#faq",
+  "inLanguage": "en",
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Vibe Knowledgeとは何ですか？",
+      "name": "What is Vibe Knowledge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Vibe Knowledgeは、Claude Codeでのコーディングセッションを自動でフラッシュカードに変換するオープンソースツールです。普段通りにClaude Codeで開発するだけで、学んだ概念が自動的にカード化されて蓄積されます。別途の操作は一切不要です。"
+        "text": "Vibe Knowledge is an open-source tool that automatically turns your Claude Code coding sessions into flashcards. Just keep developing with Claude Code as usual, and the concepts you learn get turned into cards and accumulated automatically. No extra steps required."
       }
     },
     {
       "@type": "Question",
-      "name": "無料で使えますか？費用はかかりますか？",
+      "name": "Is it free to use? Are there any costs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "完全無料です。MITライセンスのオープンソースソフトウェアです。APIキーも不要で、Claude ProまたはClaude Maxのサブスクリプションの枠内で動作します。クラウドアカウントの作成も不要で、永続的に無料でご利用いただけます。"
+        "text": "It's completely free. Vibe Knowledge is open-source software under the MIT License. No API key is needed, and it runs entirely within your existing Claude Pro or Claude Max subscription. There's no cloud account to create, and it stays free forever."
       }
     },
     {
       "@type": "Question",
-      "name": "インストール方法を教えてください。",
+      "name": "How do I install it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ターミナルで以下のコマンドを実行するだけです（30秒以内）: bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh) Claude Codeが必要です。インストール後はすべてのプロジェクトで自動的に動作します。"
+        "text": "Just run this command in your terminal (takes under 30 seconds): bash <(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh) Claude Code is required. Once installed, it works automatically across all your projects."
       }
     },
     {
       "@type": "Question",
-      "name": "MCPサーバーとして使えますか？",
+      "name": "Can it be used as an MCP server?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、MCPサーバーとして設定することで、Claude Codeのセッション内から「webhookについて今まで何を学んだ？」のような質問を直接できるようになります。自分の知識ベースを検索可能なセカンドブレインとして活用できます。"
+        "text": "Yes. Once configured as an MCP server, you can ask questions like \"what have I learned about webhooks so far?\" directly from within a Claude Code session. It turns your accumulated knowledge base into a searchable second brain."
       }
     },
     {
       "@type": "Question",
-      "name": "どのAIツールに対応していますか？CursorやGitHub Copilotでも使えますか？",
+      "name": "Which AI tools does it support? Does it work with Cursor or GitHub Copilot?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現在はClaude Code専用です。Claude Codeのhook機能を利用してセッションイベントを自動キャプチャします。CursorやGitHub Copilotへの対応は今後の拡張として検討中です。AnthropicのClaude ProまたはMaxサブスクリプションが必要です。"
+        "text": "Right now it's Claude Code only. It uses Claude Code's hook system to automatically capture session events. Support for Cursor and GitHub Copilot is being considered as a future expansion. A Claude Pro or Claude Max subscription from Anthropic is required."
       }
     },
     {
       "@type": "Question",
-      "name": "データはどこに保存されますか？クラウドに送られますか？",
+      "name": "Where is my data stored? Does it get sent to the cloud?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "すべてのデータはローカルの~/.claude/vibe-knowledge/data/に保存されます。いかなるクラウドサーバーにも送信されません。APIキーやトークンなどの秘密情報はキャプチャ前に自動でマスキングされます。"
+        "text": "All data is stored locally at ~/.claude/vibe-knowledge/data/. Nothing is ever sent to any cloud server. Secrets such as API keys and tokens are automatically masked before capture."
       }
     },
     {
       "@type": "Question",
-      "name": "コーディング中のパフォーマンスへの影響はありますか？",
+      "name": "Does it slow down my coding?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ありません。キャプチャフックはミリ秒単位で動作し、AIを呼び出しません。フラッシュカードの生成（ディスティル）はセッション終了後のバックグラウンドプロセスとして動作するため、開発中の速度に一切影響しません。"
+        "text": "No. The capture hooks run in milliseconds and don't call the AI. Flashcard generation (distillation) runs as a background process after the session ends, so it has zero impact on your development speed."
       }
     },
     {
       "@type": "Question",
-      "name": "APIキーや秘密情報は安全ですか？",
+      "name": "Are my API keys and secrets safe?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、安全です。sk-...、ghp_...、Bearer ...、.envファイルの内容、.pem/.keyファイルなど、機密情報のパターンはキャプチャ時点で自動的に[secret masked]に置換されます。ソースコードはGitHubで公開されており、すべてのロジックを監査できます。"
+        "text": "Yes. Patterns like sk-..., ghp_..., Bearer ..., .env file contents, and .pem/.key files are automatically replaced with [secret masked] at capture time. The source code is public on GitHub, so you can audit the entire logic yourself."
       }
     },
     {
       "@type": "Question",
-      "name": "フラッシュカードの内容はどのように生成されますか？",
+      "name": "How are the flashcards generated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "セッション終了後、バックグラウンドでClaude Haikuが「このセッションで触れた概念を平易な言葉で説明すると？」と自動的に問い合わせ、フラッシュカードを生成します。一文要約・使用理由・アナロジーの3フォーマットで整理されます。"
+        "text": "After a session ends, Claude Haiku automatically asks itself, in the background, \"how would you explain the concepts touched on in this session in plain language?\" and generates flashcards from the answer. Each card is organized into a one-line summary, why it matters, and an analogy."
       }
     },
     {
       "@type": "Question",
-      "name": "間隔反復（スペースドリピティション）クイズとは何ですか？",
+      "name": "What is the spaced repetition quiz?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "SM-2アルゴリズムを使った間隔反復クイズが内蔵されています。「忘れた・あいまい・覚えた」の3段階で自己評価すると、次回のレビュー日が自動的にスケジュールされます。効率的な記憶定着を支援します。"
+        "text": "Vibe Knowledge includes a built-in spaced repetition quiz powered by the SM-2 algorithm. Rate each card as \"forgot,\" \"hazy,\" or \"knew it,\" and your next review date is scheduled automatically — helping concepts stick with minimal effort."
       }
     },
     {
       "@type": "Question",
-      "name": "概念マップとは何ですか？どう使いますか？",
+      "name": "What is the concept map, and how do I use it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "上位40用語のForce-directedグラフで、概念間のつながりを視覚化します。知識のクラスターを発見したり、まだ理解が浅い領域を特定したりするのに役立ちます。コーディングを続けるほど知識の全体像が広がっていきます。"
+        "text": "It's a force-directed graph of your top 40 terms that visualizes how concepts connect to each other. It helps you spot knowledge clusters and identify areas you still understand only shallowly. The more you code, the richer this map of your knowledge becomes."
       }
     },
     {
       "@type": "Question",
-      "name": "オフラインでも使えますか？",
+      "name": "Can I use it offline?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、ビューワー（view/index.html）はインターネット接続なし・サーバーなし・バンドラーなしで動作します。ブラウザでHTMLファイルを開くだけで使えます。すべてのデータはローカルに保存されています。"
+        "text": "Yes. The viewer (view/index.html) works with no internet connection, no server, and no bundler — just open the HTML file in a browser. All your data is already stored locally."
       }
     },
     {
       "@type": "Question",
-      "name": "プロジェクトごとにカードを分けて管理できますか？",
+      "name": "Can I keep cards organized separately per project?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、カードはプロジェクト別に自動的に分類されます。ダッシュボードでプロジェクトを選択してフィルタリングしたり、特定プロジェクトで学んだ概念だけを復習することができます。"
+        "text": "Yes, cards are automatically categorized by project. You can filter by project on the dashboard, or review only the concepts you learned in a specific project."
       }
     },
     {
       "@type": "Question",
-      "name": "Vibe Knowledgeはどのような人に向いていますか？",
+      "name": "Who is Vibe Knowledge best suited for?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "AIコーディングツールを使って学習しながら開発する方に最適です。特に、バイブコーディング（Claude Codeなどで会話しながら作る開発スタイル）を実践している方、技術的な概念を顧客や同僚に説明する必要がある方、体系的なプログラミング学習を続けたい方に向いています。"
+        "text": "It's ideal for anyone learning while building with AI coding tools — especially people who practice vibe coding (building through conversation with tools like Claude Code), engineers who need to explain technical concepts to clients or teammates, and anyone who wants to keep a systematic record of what they're learning."
       }
     },
     {
       "@type": "Question",
-      "name": "Vibe Knowledgeはオープンソースですか？",
+      "name": "Is Vibe Knowledge open source?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、MITライセンスで完全公開されています。GitHubのhttps://github.com/Shown06/vibe-knowledgeで全コードを確認・フォーク・コントリビュートできます。コミュニティからの改善提案・プルリクエストを歓迎します。"
+        "text": "Yes, it's fully open under the MIT License. You can review, fork, and contribute to the full codebase at https://github.com/Shown06/vibe-knowledge. Improvement suggestions and pull requests from the community are welcome."
       }
     },
     {
       "@type": "Question",
-      "name": "月額料金はいくらですか？サブスクリプションが必要ですか？",
+      "name": "How much is the monthly fee? Do I need a subscription?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Vibe Knowledge自体は完全無料・永続無料です。必要なのはClaude ProまたはClaude Maxのサブスクリプション（Anthropic提供）のみです。Vibe Knowledgeの使用に追加費用は一切かかりません。"
+        "text": "Vibe Knowledge itself is completely free, forever. All you need is a Claude Pro or Claude Max subscription (provided by Anthropic) — there is no additional cost for using Vibe Knowledge itself."
       }
     },
     {
       "@type": "Question",
-      "name": "Claude Pro以外のサブスクリプションでも使えますか？",
+      "name": "Does it work with subscriptions other than Claude Pro?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude ProとClaude Maxの両方に対応しています。フラッシュカード生成（ディスティル）にはClaude Haikuを使用しますが、これはお使いのClaude ProまたはClaude Maxサブスクリプションの枠内で動作します。別途API課金は発生しません。"
+        "text": "It supports both Claude Pro and Claude Max. Flashcard generation (distillation) uses Claude Haiku, but this runs within your existing Claude Pro or Claude Max subscription — there's no separate API billing."
       }
     },
     {
       "@type": "Question",
-      "name": "Anki（アンキ）と何が違いますか？",
+      "name": "How is it different from Anki?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ankiは手動でカードを作成する必要がありますが、Vibe KnowledgeはClaude Codeでの開発中に自動でカードが生成されます。操作ゼロで知識が蓄積される点が最大の違いです。また、コーディングセッションに特化した文脈情報（なぜそのコードを書いたか・実際のプロジェクト例）が各カードに含まれます。"
+        "text": "With Anki you have to create cards by hand; with Vibe Knowledge, cards are generated automatically while you develop in Claude Code. Zero-effort knowledge accumulation is the biggest difference. Each card also carries context specific to your coding session — why you wrote that code, and the actual project it came from."
       }
     },
     {
       "@type": "Question",
-      "name": "Notionやオブシディアンとの違いは何ですか？",
+      "name": "How is it different from Notion or Obsidian?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "NotionやObsidianはメモを手動で書く必要があります。Vibe Knowledgeは一切の手動操作なしに、コーディング中の概念を自動抽出・カード化します。間隔反復クイズも内蔵されており、記憶定着まで一貫してサポートします。"
+        "text": "Notion and Obsidian require you to write notes manually. Vibe Knowledge extracts and cards concepts from your coding sessions automatically, with zero manual input. It also has a built-in spaced repetition quiz, supporting you all the way through to actually retaining what you learned."
       }
     },
     {
       "@type": "Question",
-      "name": "他のAI学習ツールとの最大の違いは何ですか？",
+      "name": "What's the single biggest difference from other AI learning tools?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "最大の差別化は「操作ゼロ」と「自分の実プロジェクトから生成される」の2点です。他ツールはカード作成・インポートが必要ですが、Vibe KnowledgeはClaude Codeで開発するだけで自動蓄積されます。実際のコーディング体験に基づいたカードなので記憶への定着率が高いのも特徴です。"
+        "text": "Two things: zero manual effort, and cards generated from your own real projects. Other tools require you to create or import cards; Vibe Knowledge accumulates them automatically just from developing in Claude Code. Because the cards are grounded in your actual coding experience, they also tend to stick better in memory."
       }
     },
     {
       "@type": "Question",
-      "name": "東京でも使えますか？全国対応していますか？",
+      "name": "Can I use it anywhere, or is it limited by region?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、インターネット接続があれば日本全国どこでも利用できます。東京・大阪・名古屋・福岡・北海道・沖縄など全国のエンジニアにご利用いただいています。ローカル動作のため、リモートワーク中や新幹線の中などオフライン環境でもビューワーは動作します。"
+        "text": "Yes — as long as you have an internet connection, Vibe Knowledge works from anywhere in the world. It's used by engineers across the US, Europe, and Asia alike. Since it runs locally, the viewer also works offline, whether you're traveling or working remotely with spotty connectivity."
       }
     },
     {
       "@type": "Question",
-      "name": "大阪や関西地域のエンジニアでも利用できますか？",
+      "name": "Does it work for engineers outside major tech hubs, in smaller cities or remote areas?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "もちろんです。Vibe Knowledgeはソフトウェアとして提供されるため、地域を問わず全国どこからでも利用できます。インターネット接続とClaude Codeがあれば大阪・京都・神戸・奈良などどこでも同様に動作します。"
+        "text": "Absolutely. Vibe Knowledge is just software, so it works identically no matter where you're based — a major city, a smaller town, or fully remote. All you need is an internet connection and Claude Code."
       }
     },
     {
       "@type": "Question",
-      "name": "福岡や九州のエンジニアでも使えますか？",
+      "name": "Can freelancers and remote engineers working from anywhere use it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、福岡・熊本・鹿児島・長崎・沖縄など九州・沖縄地域でも全く問題なく利用できます。オフライン動作にも対応しているため、地方在住のリモートワーカーにも最適です。"
+        "text": "Yes, and it works especially well for them. It runs fine over unreliable connections thanks to offline viewer support, making it a great fit for remote workers and digital nomads coding from anywhere."
       }
     },
     {
       "@type": "Question",
-      "name": "海外在住のエンジニアでも使えますか？",
+      "name": "Can engineers outside the US or Japan use it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、Vibe Knowledgeは英語にも対応しています。Claude Codeが利用可能な国であれば、世界中どこからでも利用できます。カードの内容は日本語・英語を問わず、セッションで使用した言語に応じて生成されます。"
+        "text": "Yes, Vibe Knowledge supports English as well. It works anywhere Claude Code is available, worldwide. Card content is generated in whichever language you actually used during the session, whether English, Japanese, or otherwise."
       }
     },
     {
       "@type": "Question",
-      "name": "バイブコーディングで学んだことが記憶に残らない問題を解決できますか？",
+      "name": "Can it solve the problem of not remembering what you learned while vibe coding?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "まさにそのために作られたツールです。AIと一緒に高速開発すると「何をしたか覚えていない」「同じことを何度もAIに聞く」という問題が起きます。Vibe Knowledgeは開発中の概念を自動カード化して間隔反復で定着させることで、この問題を根本的に解決します。"
+        "text": "That's exactly what it was built for. Fast, AI-assisted development often leaves you with \"I don't remember what I did\" or \"I keep asking the AI the same thing.\" Vibe Knowledge fixes this at the root by automatically carding the concepts you touch and reinforcing them through spaced repetition."
       }
     },
     {
       "@type": "Question",
-      "name": "同じ概念をAIに何度も聞いてしまう問題を解決できますか？",
+      "name": "Can it stop me from asking the AI the same question over and over?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい。Vibe Knowledgeで蓄積したカードをMCPサーバーとして設定すると、Claude Codeセッション内から「以前webhookについて何を学んだ？」と質問できます。同じことを繰り返しAIに聞く非効率を解消し、過去の学習をセッション内で即参照できます。"
+        "text": "Yes. Once you set up the cards Vibe Knowledge has accumulated as an MCP server, you can ask directly inside a Claude Code session, \"what did I learn about webhooks before?\" It eliminates the inefficiency of repeating the same question and lets you pull up past learning instantly, mid-session."
       }
     },
     {
       "@type": "Question",
-      "name": "技術的な概念をクライアントや非エンジニアに説明できるようになりますか？",
+      "name": "Will it help me explain technical concepts to clients or non-engineers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、それがVibe Knowledgeの主要な用途の一つです。各カードには「アナロジー（例え話）」が自動生成されます。「Webhookはドアベルのようなもの」など、非技術者にも伝わる表現で概念を整理してくれるため、商談やチーム説明の準備に役立ちます。"
+        "text": "Yes, that's one of its core use cases. Every card automatically includes an analogy — for example, \"a webhook is like a doorbell.\" By framing concepts in terms non-technical people can grasp, it helps you prepare for client meetings and cross-team explanations."
       }
     },
     {
       "@type": "Question",
-      "name": "プログラミング学習中の初心者でも使えますか？",
+      "name": "Can beginners who are still learning to code use it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、むしろ学習中の方に特に効果的です。Claude Codeで学習しながら開発する際に、触れた技術概念が自動でカード化されるため、学習の記録が自然に蓄積されます。カードの内容は平易な言語で書かれるため、初学者でも理解しやすい説明になります。"
+        "text": "Yes — it's especially effective for people still learning. As you learn while building in Claude Code, the technical concepts you encounter get carded automatically, so a record of your learning builds up naturally. Card content is written in plain language, so it's easy for beginners to follow."
       }
     },
     {
       "@type": "Question",
-      "name": "技術面接の準備に使えますか？",
+      "name": "Can it help me prepare for technical interviews?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、実際のプロジェクト経験から生成されたカードは面接準備に最適です。「Webhookを実装したとき、なぜそれを選んだか」という文脈情報もカードに含まれるため、面接での「なぜその技術を使いましたか？」という質問に具体的に答えられるようになります。"
+        "text": "Yes. Cards generated from your actual project experience are great interview prep material. Because each card includes context — like why you chose to implement something a certain way with a webhook — you'll be ready to give concrete answers when an interviewer asks \"why did you use that technology?\""
       }
     },
     {
       "@type": "Question",
-      "name": "チームで共有できますか？",
+      "name": "Can it be shared across a team?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現在はローカルデータとして個人の~/.claude/vibe-knowledge/data/に保存されます。チーム共有機能は今後の開発ロードマップに含まれています。現時点では、カードデータをエクスポートしてチームと共有することができます。"
+        "text": "Right now, data is stored locally per individual, at ~/.claude/vibe-knowledge/data/. Team sharing is on the development roadmap. In the meantime, you can export your card data and share it with your team manually."
       }
     },
     {
       "@type": "Question",
-      "name": "Windowsでも使えますか？",
+      "name": "Does it work on Windows?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Windows Subsystem for Linux（WSL）環境でClaude Codeを使用している場合に対応しています。macOSとLinuxはネイティブでサポートされています。WSLを使えばWindowsユーザーも同様に利用できます。"
+        "text": "Yes, if you're running Claude Code inside Windows Subsystem for Linux (WSL). macOS and Linux are natively supported. Windows users can use Vibe Knowledge the same way via WSL."
       }
     },
     {
       "@type": "Question",
-      "name": "macOSとLinuxのどちらでも使えますか？",
+      "name": "Does it work on both macOS and Linux?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、macOSとLinuxの両方をネイティブサポートしています。Apple SiliconのMac、Intel Macのどちらでも動作します。Linuxはデスクトップ・サーバー環境どちらでも対応しています。"
+        "text": "Yes, both macOS and Linux are natively supported — on Apple Silicon or Intel Macs, and on Linux desktop or server environments alike."
       }
     },
     {
       "@type": "Question",
-      "name": "フラッシュカードを手動で追加・編集できますか？",
+      "name": "Can I add or edit flashcards manually?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "データは~/.claude/vibe-knowledge/data/cards.jsonlにJSON形式で保存されます。テキストエディタで直接編集したり、カードを追加したりすることができます。自動生成とあわせて手動での補完も可能です。"
+        "text": "Data is stored in JSON format at ~/.claude/vibe-knowledge/data/cards.jsonl. You can open it in any text editor to edit existing cards or add new ones directly, alongside the automatically generated ones."
       }
     },
     {
       "@type": "Question",
-      "name": "既存のAnkiデッキをインポートできますか？",
+      "name": "Can I import my existing Anki deck?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現在、Ankiデッキの直接インポート機能は未実装です。ただし、cards.jsonlにJSONL形式でカードを手動追加することで、既存の学習データをVibe Knowledgeに取り込むことができます。インポート機能は今後の開発予定に含まれています。"
+        "text": "Direct Anki deck import isn't implemented yet. However, you can manually add cards to cards.jsonl in JSONL format to bring existing study data into Vibe Knowledge. A proper import feature is planned for a future release."
       }
     },
     {
       "@type": "Question",
-      "name": "何枚くらいのカードが溜まりますか？",
+      "name": "About how many cards will I accumulate?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "1週間のコーディングで100枚以上が目安です。プロジェクトの規模・複雑さ・コーディング時間によって変動します。実際のユーザーは月500枚以上のカードを蓄積しています。カードが増えるほど概念マップも充実します。"
+        "text": "As a rough benchmark, expect 100+ cards from a week of coding. The exact number depends on your project's size, complexity, and how much time you spend coding. Active users accumulate 500+ cards per month. The more cards you have, the richer your concept map becomes."
       }
     },
     {
       "@type": "Question",
-      "name": "学習の進捗を確認できますか？",
+      "name": "Can I track my learning progress?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、ダッシュボードで学習統計を確認できます。総カード数・プロジェクト別カード数・クイズの正答率・次回レビュー予定などが一覧で確認できます。MCPサーバーのvk_get_statsツールでも統計情報を取得できます。"
+        "text": "Yes, the dashboard shows learning statistics: total card count, cards per project, quiz accuracy, and upcoming review dates. You can also pull this data via the vk_get_stats tool on the MCP server."
       }
     },
     {
       "@type": "Question",
-      "name": "カードのエクスポート機能はありますか？",
+      "name": "Can I export my cards?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "データは~/.claude/vibe-knowledge/data/cards.jsonlにテキストファイルとして保存されているため、随時コピー・エクスポートができます。JSON Lines形式なので、他のツールへの連携・変換も容易です。"
+        "text": "Since your data is stored as a plain text file at ~/.claude/vibe-knowledge/data/cards.jsonl, you can copy or export it anytime. Because it's in JSON Lines format, it's also easy to feed into other tools or convert to another format."
       }
     },
     {
       "@type": "Question",
-      "name": "AIコーディング中に学習の邪魔になりませんか？",
+      "name": "Will it interrupt or distract me while I'm coding with AI?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "一切邪魔になりません。Vibe Knowledgeはバックグラウンドで完全にサイレントに動作します。開発中に通知・ポップアップ・入力待ちが発生することはなく、セッション終了後に自動でカードが生成されます。"
+        "text": "Not at all. Vibe Knowledge runs completely silently in the background. There are no notifications, popups, or prompts while you're developing — cards are simply generated automatically after your session ends."
       }
     },
     {
       "@type": "Question",
-      "name": "Claude Codeをアップデートしたら動かなくなりますか？",
+      "name": "Will it break if I update Claude Code?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude CodeのhookシステムはAnthropicが公式にサポートする機能です。大幅な仕様変更がない限り、バージョンアップ後も継続して動作します。問題が発生した場合はGitHubのissueで報告してください。"
+        "text": "Claude Code's hook system is an officially supported feature from Anthropic. Barring a major breaking change, Vibe Knowledge continues to work fine across version updates. If you ever hit an issue, please report it on GitHub."
       }
     },
     {
       "@type": "Question",
-      "name": "フラッシュカードの生成にどのくらい時間がかかりますか？",
+      "name": "How long does flashcard generation take?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "セッション終了後、バックグラウンドで数十秒〜数分で生成されます。セッションの長さやClaude APIの応答速度によって変動しますが、次のコーディングセッションを開始する前には新しいカードが利用可能になっています。"
+        "text": "After a session ends, cards are generated in the background within tens of seconds to a few minutes, depending on session length and Claude API response time. In practice, new cards are ready well before you start your next coding session."
       }
     },
     {
       "@type": "Question",
-      "name": "アンインストールはできますか？",
+      "name": "Can I uninstall it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、Claude Codeのsettings.jsonからhookの登録を削除し、~/.claude/vibe-knowledge/ディレクトリを削除することでアンインストールできます。データのバックアップを取ってから行うことを推奨します。"
+        "text": "Yes. Remove the hook registration from Claude Code's settings.json, then delete the ~/.claude/vibe-knowledge/ directory. We recommend backing up your data first."
       }
     },
     {
       "@type": "Question",
-      "name": "副業や個人開発でも効果的に使えますか？",
+      "name": "Is it useful for side projects or solo development?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "特に副業・個人開発者に最適です。限られた時間でClaude Codeと開発するたびに知識が自動蓄積されるため、学習と開発を同時に進められます。次のセッション開始時に前回の学びを即参照できるため、作業効率も向上します。"
+        "text": "It's especially well suited to that use case. Every time you develop with Claude Code in limited spare time, knowledge accumulates automatically, letting you learn and build at the same time. Being able to instantly reference what you learned last time also boosts your overall efficiency."
       }
     },
     {
       "@type": "Question",
-      "name": "フリーランスエンジニアの提案・商談に役立てられますか？",
+      "name": "Can it help freelance engineers with proposals and client pitches?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、フリーランスエンジニアが自分の実績・技術スタックをカード化してまとめておくことで、商談時に「私はこの技術を実プロジェクトでこう使いました」と説明する準備が整います。クライアントへの技術説明の精度が向上します。"
+        "text": "Yes. By carding your track record and tech stack over time, freelance engineers can walk into a pitch ready to say \"here's exactly how I used this technology on a real project.\" It sharpens how precisely you can explain your technical work to clients."
       }
     },
     {
       "@type": "Question",
-      "name": "プログラミング学習の記録として使えますか？",
+      "name": "Can I use it as a learning journal for programming?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "最適な用途の一つです。学習の軌跡が自動でカードとして記録されるため、「いつ・どのプロジェクトで・何を学んだ」が時系列で振り返れます。成長の可視化に役立ち、学習モチベーションの維持にも効果的です。"
+        "text": "That's one of its best use cases. Since your learning trail is recorded automatically as cards, you can look back chronologically at what you learned, when, and on which project. It's great for visualizing your growth and staying motivated to keep learning."
       }
     },
     {
       "@type": "Question",
-      "name": "コントリビュートしたいのですがどうすればよいですか？",
+      "name": "I'd like to contribute. How do I get started?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "GitHubのhttps://github.com/Shown06/vibe-knowledgeでプルリクエストやissueを歓迎しています。バグ報告・機能提案・ドキュメント改善・コード改善など、あらゆるコントリビュートを歓迎します。MITライセンスのため自由にフォークして改変できます。"
+        "text": "Pull requests and issues are welcome at https://github.com/Shown06/vibe-knowledge. Bug reports, feature suggestions, documentation improvements, and code contributions are all appreciated. It's MIT licensed, so feel free to fork and modify it."
       }
     },
     {
       "@type": "Question",
-      "name": "RAGやベクトル検索に対応していますか？",
+      "name": "Does it support RAG or vector search?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現在はキーワード検索ベースの実装です。MCPサーバーのvk_search_cardsツールでキーワード検索が可能です。ベクトル検索・セマンティック検索の対応は今後の開発ロードマップに含まれています。"
+        "text": "Right now, search is keyword-based — you can search your cards via the vk_search_cards tool on the MCP server. Vector and semantic search are on the development roadmap."
       }
     },
     {
       "@type": "Question",
-      "name": "バイブコーディングとは何ですか？Vibe Knowledgeとどう関係しますか？",
+      "name": "What is vibe coding, and how does it relate to Vibe Knowledge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "バイブコーディング（Vibe Coding）とは、Claude CodeやCursorなどのAIエージェントと対話しながら直感的に開発するスタイルです。高速開発が可能な反面、学んだことが記憶に残りにくいという課題があります。Vibe KnowledgeはこのバイブコーディングのセッションログからAIが自動でフラッシュカードを生成し、知識として定着させるために設計されています。"
+        "text": "Vibe coding is the style of building software intuitively through conversation with an AI agent like Claude Code or Cursor. It enables very fast development, but comes with a real downside: what you learn along the way tends not to stick. Vibe Knowledge is designed to solve exactly that — it automatically generates flashcards from your vibe coding session logs and helps that knowledge actually become permanent."
       }
     },
     {
       "@type": "Question",
-      "name": "セキュリティ上、企業の業務コードに使っても大丈夫ですか？",
+      "name": "Is it safe to use on proprietary company code?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "すべてのデータはローカルマシンにのみ保存され、外部サーバーへの送信は一切ありません。また、APIキー・パスワード・トークン・.envファイルの内容などの機密情報は自動でマスキングされます。ソースコードはGitHubで全公開されており、セキュリティ監査も可能です。ただし、社内のセキュリティポリシーに従って利用を検討してください。"
+        "text": "All data is stored only on your local machine and is never sent to any external server. Secrets such as API keys, passwords, tokens, and .env file contents are masked automatically. The source code is fully public on GitHub, so it can be security-audited. That said, please confirm usage aligns with your company's internal security policy."
       }
     },
     {
       "@type": "Question",
-      "name": "GPT-4やGeminiを使っていますが、Vibe Knowledgeは使えますか？",
+      "name": "I use GPT-4 or Gemini — can I still use Vibe Knowledge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現時点ではClaude Code専用です。GPT-4（OpenAI）やGemini（Google）のコーディングツールには対応していません。Claude Codeへの乗り換えをご検討中の方は、無料トライアルでVibe Knowledgeの効果をお試しください。"
+        "text": "Right now it's Claude Code only, and it doesn't support GPT-4 (OpenAI) or Gemini (Google) coding tools. If you're considering switching to Claude Code, give Vibe Knowledge a try during a free trial to see the effect for yourself."
       }
     },
     {
       "@type": "Question",
-      "name": "カードの品質が低い場合、修正できますか？",
+      "name": "Can I fix a card if the quality is low?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、~/.claude/vibe-knowledge/data/cards.jsonlをテキストエディタで直接編集することでカード内容を修正できます。また、質が低いカードを削除して生成し直すことも可能です。今後のバージョンではUIからのインライン編集機能を実装予定です。"
+        "text": "Yes. You can edit card content directly by opening ~/.claude/vibe-knowledge/data/cards.jsonl in a text editor. You can also delete a low-quality card and let it be regenerated. Inline editing from the UI is planned for a future version."
       }
     },
     {
       "@type": "Question",
-      "name": "バイブナレッジとVibeKnowledgeは同じものですか？",
+      "name": "Is \"バイブナレッジ\" the same product as Vibe Knowledge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、同じサービスです。「バイブナレッジ」は「Vibe Knowledge」の日本語読みです。正式名称はVibe Knowledge、URLはvibeknowledge.dev、GitHubリポジトリはShown06/vibe-knowledgeです。"
+        "text": "Yes, it's the exact same product — just written differently. The official name is Vibe Knowledge, the site is vibeknowledge.dev, and the GitHub repository is Shown06/vibe-knowledge."
       }
     },
     {
       "@type": "Question",
-      "name": "SM-2アルゴリズムとは何ですか？なぜ使っているのですか？",
+      "name": "What is the SM-2 algorithm, and why does Vibe Knowledge use it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "SM-2（SuperMemo 2）は科学的に検証された間隔反復アルゴリズムです。エビングハウスの忘却曲線に基づき、忘れる直前に復習することで最小の学習量で最大の記憶定着を実現します。Vibe KnowledgeはこのSM-2を内蔵しているため、効率的な長期記憶の定着が可能です。"
+        "text": "SM-2 (SuperMemo 2) is a scientifically validated spaced repetition algorithm. Based on the Ebbinghaus forgetting curve, it schedules review right before you're about to forget something, maximizing retention for the minimum amount of study time. Vibe Knowledge has SM-2 built in so your long-term memory retention stays efficient."
       }
     },
     {
       "@type": "Question",
-      "name": "インストールに必要なものを教えてください。",
+      "name": "What do I need to install it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "必要なものは2つだけです。(1) Claude Code（AnthropicのCLIツール）、(2) Claude ProまたはClaude Maxサブスクリプション。インターネット接続があればインストールは30秒以内で完了します。Node.js・Python・その他の依存関係の事前インストールは不要です。"
+        "text": "Just two things: (1) Claude Code (Anthropic's CLI tool), and (2) a Claude Pro or Claude Max subscription. With an internet connection, installation takes under 30 seconds. No need to pre-install Node.js, Python, or any other dependencies."
       }
     },
     {
       "@type": "Question",
-      "name": "複数のPCやMac間でカードを同期できますか？",
+      "name": "Can I sync cards across multiple computers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "現在はローカルデータのみの対応です。複数デバイス間の同期には、~/.claude/vibe-knowledge/data/フォルダをDropboxやGoogle Drive、あるいはGitリポジトリで管理することで手動同期が可能です。クラウド同期機能は今後の開発予定です。"
+        "text": "Currently it only supports local data. To sync across multiple devices, you can manage the ~/.claude/vibe-knowledge/data/ folder through Dropbox, Google Drive, or a Git repository for manual syncing. Native cloud sync is planned for a future release."
       }
     },
     {
       "@type": "Question",
-      "name": "AIコーディングで「なんとなく動いているがよく分からない」状態を脱せますか？",
+      "name": "Can it help me move past \"it works but I don't really understand why\" when coding with AI?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "まさにそのための道具です。AIが書いたコードの概念を平易な言語でカード化して蓄積し、間隔反復で定着させることで、「コピペして動いただけ」の状態から「理解して説明できる」状態へ移行できます。バイブコーダーが自分の技術力に自信を持つための学習インフラです。"
+        "text": "That's exactly what it's built for. By carding the concepts behind AI-written code in plain language and reinforcing them through spaced repetition, it helps you move from \"I copy-pasted it and it worked\" to \"I understand it and can explain it.\" It's learning infrastructure for vibe coders who want real confidence in their technical skills."
       }
     },
     {
       "@type": "Question",
-      "name": "ダッシュボードの見方を教えてください。",
+      "name": "How do I read the dashboard?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ダッシュボード（/app/またはローカルのview/index.html）には6つのタブがあります。Cards（カード一覧・検索）、Projects（プロジェクト別集計）、Glossary（用語集）、Concept Map（概念マップ）、Quiz（間隔反復クイズ）、Retrospective（ふりかえり）の6タブで知識を多角的に管理できます。"
+        "text": "The dashboard (/app/ or the local view/index.html) has six tabs: Cards (browse and search), Projects (per-project breakdown), Glossary, Concept Map, Quiz (spaced repetition), and Retrospective — giving you multiple angles for managing your knowledge."
       }
     },
     {
       "@type": "Question",
-      "name": "GitHubのスターやコントリビュートで応援できますか？",
+      "name": "Can I support the project with a GitHub star or by contributing?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、ぜひお願いします。https://github.com/Shown06/vibe-knowledgeでのStarが最も励みになります。バグ報告・機能提案・ドキュメント翻訳・コードPRなど、あらゆるコントリビュートを歓迎しています。OSSコミュニティでの開発参加も大歓迎です。"
+        "text": "Yes, we'd really appreciate it. A star at https://github.com/Shown06/vibe-knowledge means a lot. Bug reports, feature suggestions, documentation translations, and code PRs are all welcome — we'd love to have you join the open-source community around the project."
       }
     }
   ]
@@ -661,7 +757,10 @@
     user-select: all;
     border: none;
     width: 100%;
+    min-width: 0;
     text-align: left;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   .install-cmd span { color: #9aa0ab; font-size: 0.75rem; margin-left: auto; flex-shrink: 0; font-family: 'Helvetica Neue', sans-serif; letter-spacing: 0.04em; }
   .install-note {
@@ -834,7 +933,7 @@
     color: var(--mid);
     line-height: 1.7;
   }
-  .feature code { font-family: monospace; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
+  .feature code { font-family: monospace; color: #60605c; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
 
   .privacy-box {
     display: grid;
@@ -859,7 +958,7 @@
     color: var(--mid);
     line-height: 1.5;
   }
-  .privacy-list li code { font-family: monospace; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
+  .privacy-list li code { font-family: monospace; color: #60605c; font-size: 0.82rem; background: var(--code-bg); padding: 1px 4px; border-radius: 3px; }
 
   .cta-section {
     background: var(--ink);
@@ -946,49 +1045,49 @@
 <!-- noscript: クローラー・AIクローラー向け静的テキスト層 -->
 <noscript>
 <div style="font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.7; color: #1a1a18;">
-  <h1>Vibe Knowledge（バイブナレッジ）— Claude Codeのセッションを自動でフラッシュカード化するOSSツール</h1>
-  <p>Vibe Knowledge（バイブナレッジ）は、AIバイブコーディングの実装ノウハウ・設計判断・エラー解決を自動的に学習カードに変換して蓄積するオープンソースサービスです。Claude Code・Cursor等のAIエージェント実装ログから知識を自動抽出し、間隔反復（SM-2アルゴリズム）で長期記憶に定着させます。完全無料・MITライセンス・クラウド不要・オフライン対応。</p>
-  <p>バイブコーディングで高速開発するほど「何を学んだか覚えていない」「同じことをAIに何度も聞いてしまう」という課題を根本的に解決します。東京・大阪・名古屋・福岡・北海道・沖縄など日本全国のエンジニア、またリモートワーカー・フリーランス・副業エンジニア・プログラミング学習中の方に広くご利用いただいています。</p>
+  <h1>Vibe Knowledge — turn Claude Code sessions into flashcards automatically (free, open source)</h1>
+  <p>Vibe Knowledge is an open-source tool that automatically captures what you learn while vibe coding — implementation know-how, design decisions, error fixes — and turns it into plain-language flashcards. It reads the session log of AI agents such as Claude Code, extracts the concepts you actually touched, and helps you retain them with spaced repetition (the SM-2 algorithm). Completely free, MIT licensed, no cloud account, works offline.</p>
+  <p>The faster you ship with AI, the more often you hit the same two problems: "I do not remember what I learned" and "I keep asking Claude the same question again." Vibe Knowledge fixes that at the root. It is used by remote developers, freelancers, indie hackers, side-project builders, bootcamp students and engineers preparing for technical interviews, anywhere Claude Code is available.</p>
 
-  <h2>主な機能</h2>
+  <h2>Key features</h2>
   <ul>
-    <li>Claude Codeセッションの自動フラッシュカード化（操作不要）</li>
-    <li>間隔反復（SM-2アルゴリズム）クイズ内蔵 — エビングハウス忘却曲線対策</li>
-    <li>MCPサーバー対応 — Claude Codeから自分の知識ベースを直接検索</li>
-    <li>Force-directed概念マップで知識のつながりを可視化</li>
-    <li>プロジェクト別カード整理・自動分類</li>
-    <li>APIキー・シークレット・.envファイルの自動マスキング（プライバシー保護）</li>
-    <li>完全ローカル動作・クラウド不要・オフライン対応</li>
-    <li>ダッシュボード6タブ: カード/プロジェクト/用語集/概念マップ/クイズ/ふりかえり</li>
+    <li>Automatic flashcards from every Claude Code session — zero manual effort</li>
+    <li>Built-in spaced repetition quiz (SM-2) — designed against the Ebbinghaus forgetting curve</li>
+    <li>MCP server support — search your own knowledge base from inside a Claude Code session</li>
+    <li>Force-directed concept map that visualises how your knowledge connects</li>
+    <li>Cards organised and classified per project, automatically</li>
+    <li>Automatic masking of API keys, secrets and .env contents (privacy by default)</li>
+    <li>Runs fully local — no cloud, no account, works offline</li>
+    <li>Six dashboard tabs: Cards, Projects, Glossary, Concept Map, Quiz, Review</li>
   </ul>
 
-  <h2>インストール方法</h2>
-  <p>ターミナルで以下を実行するだけです（Claude Codeが必要です）:</p>
+  <h2>How to install</h2>
+  <p>Run one command in your terminal (Claude Code is required):</p>
   <pre>bash &lt;(curl -fsSL https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh)</pre>
-  <p>インストール時間: 30秒以内。Claude ProまたはClaude Maxサブスクリプションが必要です。設定不要でmacOS・Linux・Windows(WSL)のすべてのプロジェクトで自動動作します。</p>
+  <p>Install time: under 30 seconds. A Claude Pro or Claude Max subscription is required. Once installed it works automatically across every project on macOS, Linux and Windows (WSL) — nothing to configure per project.</p>
 
-  <h2>フラッシュカードの仕組み</h2>
-  <p>セッション終了後、バックグラウンドでClaude Haikuが概念を自動抽出してカードを生成します。各カードには「一文要約」「使用理由（なぜそのコードを書いたか）」「アナロジー（非技術者にも伝わる例え話）」が含まれます。1週間のコーディングで100枚以上のカードが溜まります。</p>
+  <h2>How the flashcards are made</h2>
+  <p>After a session ends, a background process asks Claude Haiku to describe the concepts you just touched in plain English. Every card carries a one-sentence summary, the reason the code was written that way, and an analogy a non-engineer can follow. A week of coding typically produces more than 100 cards, all grounded in your own projects.</p>
 
-  <h2>プライバシーとセキュリティ</h2>
-  <p>すべてのデータは~/.claude/vibe-knowledge/data/にローカル保存されます。APIキー（sk-...、ghp_...）、Bearerトークン、.envファイル、秘密鍵（.pem/.key）は自動でマスキングされます。クラウドへの送信は一切ありません。ソースコードはGitHubで全公開・セキュリティ監査可能。企業の業務コードにも安心して利用いただけます。</p>
+  <h2>Privacy and security</h2>
+  <p>All data is stored locally in ~/.claude/vibe-knowledge/data/. API keys (sk-..., ghp_...), Bearer tokens, .env files and private keys (.pem/.key) are masked automatically. Nothing is ever sent to a cloud service. The source code is fully public on GitHub and can be audited, so it is safe to use on commercial and company codebases.</p>
 
-  <h2>MCPサーバーとしての活用</h2>
-  <p>MCPサーバーとして設定することで、Claude Codeのセッション中に「webhookについて何を学んだ？」「ReactのuseEffectを使ったのはなぜ？」のような質問ができる、自分専用の検索可能な知識ベースになります。過去のプロジェクトの設計判断・エラー解決ノウハウをセッション内で即参照できます。</p>
+  <h2>Using it as an MCP server</h2>
+  <p>Configured as an MCP server, Vibe Knowledge becomes your own searchable knowledge base inside Claude Code. You can ask "what have I learned about webhooks?" or "why did I use useEffect in React?" and pull up design decisions and error fixes from past projects without leaving the session.</p>
 
-  <h2>対応環境</h2>
-  <p>macOS（Apple Silicon・Intel）、Linux（デスクトップ・サーバー）、Windows（WSL）。Claude ProまたはClaude Maxサブスクリプションが必要です。Node.js・Python等の事前インストールは不要です。</p>
+  <h2>Supported environments</h2>
+  <p>macOS (Apple Silicon and Intel), Linux (desktop and server), Windows (WSL). Requires a Claude Pro or Claude Max subscription. No prior Node.js or Python installation is needed.</p>
 
-  <h2>対象ユーザー</h2>
-  <p>バイブコーダー（Claude CodeやCursorでAIと対話しながら開発する方）、プログラミング学習中の方、技術概念をクライアントに説明する必要があるフリーランスエンジニア、副業開発者、転職・技術面接を控えたエンジニア、チームでの知識共有を強化したい開発者。東京都・神奈川県・大阪府・愛知県・福岡県・北海道・沖縄県など全国のエンジニアに対応。</p>
+  <h2>Who it is for</h2>
+  <p>Vibe coders who build in conversation with Claude Code or Cursor, people learning to program, freelance engineers who need to explain technical concepts to clients, side-project developers, engineers preparing for interviews or a job change, and teams that want to share knowledge more reliably.</p>
 
-  <h2>料金</h2>
-  <p>完全無料・永続無料。Vibe Knowledge自体への課金は一切ありません。必要なのはClaude Pro（月額$20）またはClaude Max（月額$100）サブスクリプションのみです。MITライセンスのため商用利用・フォーク・改変も自由です。</p>
+  <h2>Pricing</h2>
+  <p>Free forever. Vibe Knowledge itself never charges anything. All you need is a Claude Pro (USD 20/month) or Claude Max (USD 100/month) subscription. Because it is MIT licensed, commercial use, forking and modification are all permitted.</p>
 
-  <h2>関連キーワード</h2>
-  <p>バイブコーディング 学習 / AIコーディング 知識管理 / Claude Code 実装ログ / Cursor 学習カード / AIエージェント ノウハウ / プロンプトエンジニアリング 記録 / AI開発 フラッシュカード / コーディング 知識蓄積 / vibe coding 日本語 / AI 実装パターン 管理 / 開発ログ 自動整理 / エラー解決 データベース / スペースドリピティション / 間隔反復 / SM-2アルゴリズム / セカンドブレイン / second brain / 知識ベース / ナレッジベース / MCPサーバー / AI学習ツール / 自動フラッシュカード / 開発者ツール / OSS / MIT ライセンス / 無料 / オフライン / プライバシーファースト / Claude Pro / Claude Max / Anthropic</p>
+  <h2>Related searches</h2>
+  <p>vibe coding learning / AI coding knowledge management / Claude Code session log / Cursor learning cards / AI agent know-how / prompt engineering notes / AI development flashcards / knowledge retention for developers / spaced repetition / SM-2 algorithm / second brain / personal knowledge management / knowledge base / MCP server / AI learning tool / automatic flashcards / developer tools / OSS / MIT license / free / offline / privacy first / Claude Pro / Claude Max / Anthropic / Anki alternative / Obsidian alternative / active recall / forgetting curve / technical interview prep</p>
 
-  <p><a href="https://github.com/Shown06/vibe-knowledge">GitHubでソースを見る（MITライセンス）</a> | <a href="https://vibeknowledge.dev/app/">ダッシュボードを開く</a></p>
+  <p><a href="https://github.com/Shown06/vibe-knowledge">View the source on GitHub (MIT License)</a> | <a href="https://vibeknowledge.dev/app/">Open the dashboard</a></p>
 </div>
 </noscript>
 
@@ -1001,6 +1100,7 @@
   </div>
 </nav>
 
+<main>
 <section class="hero">
   <p class="hero-tag">Free &amp; Open Source — MIT License</p>
   <h1>Your coding sessions.<br><em>Turned into knowledge.</em></h1>
@@ -1026,7 +1126,7 @@
 <hr class="section-divider">
 
 <section class="section">
-  <p class="section-label">How it works</p>
+  <h2 class="section-label">How it works</h2>
   <div class="steps">
     <div class="step">
       <p class="step-num">01</p>
@@ -1078,7 +1178,7 @@
 <hr class="section-divider">
 
 <section class="section">
-  <p class="section-label">What's included</p>
+  <h2 class="section-label">What's included</h2>
   <div class="features-grid">
     <div class="feature">
       <p class="feature-icon">Auto-capture</p>
@@ -1140,6 +1240,7 @@
     <a href="/app/" class="btn-outline-light">Open Dashboard</a>
   </div>
 </section>
+</main>
 
 <footer>
   <span>Vibe Knowledge — Open Source · MIT</span>

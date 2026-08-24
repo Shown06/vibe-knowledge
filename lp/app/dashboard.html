@@ -41,6 +41,8 @@
   .header-actions{display:flex;gap:12px;align-items:center;margin-top:14px}
   .logout-btn{background:none;border:1px solid var(--line);color:var(--ink-dim);padding:6px 14px;border-radius:7px;font-family:var(--sans);font-size:13px;cursor:pointer;transition:all .15s}
   .logout-btn:hover{border-color:var(--accent-dim);color:var(--ink)}
+  #syncStatus{font-size:12px;color:var(--ink-dim)}
+  #syncStatus.bad{color:var(--bad)}
 
   nav{display:flex;gap:4px;margin-top:24px;flex-wrap:wrap}
   nav button{background:none;border:none;color:var(--ink-dim);font-family:var(--sans);
@@ -85,6 +87,14 @@
   .qa-item .q::before{content:"Q ";color:var(--accent);font-weight:600}
   .qa-item .a{font-size:13.5px;color:var(--ink-dim);margin-top:3px}
   .qa-item .a::before{content:"A ";color:var(--good);font-weight:600}
+
+  .flagbtn{margin-top:14px;display:inline-block;background:none;border:1px solid var(--line);
+    color:var(--ink-dim);font-size:11.5px;padding:3px 11px;border-radius:20px;cursor:pointer;
+    font-family:var(--sans);transition:all .15s}
+  .flagbtn:hover{border-color:var(--bad);color:var(--bad)}
+  .flagbtn.flagged{color:var(--bad);border-color:var(--bad);opacity:.85;cursor:default}
+  .card.card-flagged{opacity:.55}
+  .card.card-flagged:hover{opacity:.75}
 
   .gitem{border-bottom:1px solid var(--line);padding:16px 2px}
   .gitem .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -180,6 +190,7 @@
   </div>
   <div class="header-actions">
     <span style="color:var(--ink-dim);font-size:13px;">データ更新: <span id="genTime">—</span></span>
+    <span id="syncStatus" style="display:none"></span>
     <button class="logout-btn" onclick="doLogout()">ログアウト</button>
   </div>
   <nav>
@@ -244,10 +255,33 @@
 
 <script>
 "use strict";
-let DATA = {cards:[], terms:{}, profiles:[]};
+let DATA = {cards:[], terms:{}, profiles:[], flagged:new Set(), syncStatus:null};
 const $ = s => document.querySelector(s);
 const el = (t,c,txt)=>{const e=document.createElement(t); if(c)e.className=c; if(txt!=null)e.textContent=txt; return e;};
 const esc = s => (s==null?"":String(s));
+
+// --- 同期状態の可視化(「最終同期: X分前/X時間前」) ---
+function timeAgo(iso){
+  const then = new Date(iso).getTime();
+  if(isNaN(then)) return '';
+  const diffMin = Math.max(0, Math.floor((Date.now()-then)/60000));
+  if(diffMin < 1) return 'たった今';
+  if(diffMin < 60) return diffMin+'分前';
+  const diffH = Math.floor(diffMin/60);
+  if(diffH < 24) return diffH+'時間前';
+  return Math.floor(diffH/24)+'日前';
+}
+function renderSyncStatus(){
+  const box = $('#syncStatus');
+  const s = DATA.syncStatus;
+  if(!box) return;
+  if(!s || !s.ts){ box.style.display='none'; box.textContent=''; box.classList.remove('bad'); return; }
+  const ageHours = (Date.now() - new Date(s.ts).getTime()) / 3600000;
+  const isBad = s.status === 'fail' || !isFinite(ageHours) || ageHours >= 36;
+  box.style.display='inline';
+  box.classList.toggle('bad', isBad);
+  box.textContent = isBad ? '同期失敗(要確認) — 最終: '+(timeAgo(s.ts)||'不明') : '最終同期: '+timeAgo(s.ts);
+}
 
 document.querySelectorAll('nav button').forEach(b=>{
   b.onclick=()=>{
@@ -342,6 +376,7 @@ function paintCardList(){
       c.related.forEach(rt=>{const ch=el('span','chip',rt);ch.onclick=()=>jumpToTerm(rt);chips.appendChild(ch);});
       card.appendChild(chips);
     }
+    appendFlagButton(card, c);
     wrap.appendChild(card);
   });
   if(curCardList.length>cardsShown){
@@ -350,6 +385,39 @@ function paintCardList(){
     more.onclick=()=>{cardsShown+=CARD_PAGE; paintCardList();};
     wrap.appendChild(more);
   }
+}
+// --- カード訂正報告(「この説明は間違っている」) ---
+function cardKey(c){ return c.id || (c.term+'|'+(c.ts||'')); }
+function appendFlagButton(cardEl, c){
+  const key = cardKey(c);
+  const already = DATA.flagged.has(key);
+  const btn = el('button', 'flagbtn'+(already?' flagged':''), already? '訂正報告済み':'この説明は間違っている');
+  if(already) btn.disabled = true;
+  if(already) cardEl.classList.add('card-flagged');
+  btn.onclick = async ()=>{
+    if(btn.disabled) return;
+    btn.disabled = true; btn.textContent = '送信中…';
+    try{
+      const res = await fetch('/api/flag-card', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({card_id:key})
+      });
+      if(res.ok){
+        DATA.flagged.add(key);
+        btn.textContent = '訂正報告済み';
+        btn.classList.add('flagged');
+        cardEl.classList.add('card-flagged');
+      } else {
+        btn.disabled = false; btn.textContent = 'この説明は間違っている';
+        alert('送信に失敗しました。時間をおいて試してください。');
+      }
+    } catch(e){
+      btn.disabled = false; btn.textContent = 'この説明は間違っている';
+      alert('通信エラーです。時間をおいて試してください。');
+    }
+  };
+  cardEl.appendChild(btn);
 }
 function emptyBox(big,sub){const e=el('div','empty');e.appendChild(el('div','big',big));e.appendChild(el('div',null,sub));return e;}
 $('#cardSearch').oninput=e=>renderCards(e.target.value.trim());
@@ -606,6 +674,8 @@ async function bootApp() {
   DATA.terms = vkData.terms || {};
   DATA.profiles = vkData.profiles || [];
   DATA.generated = vkData.generated || '—';
+  DATA.syncStatus = vkData.sync_status || null;
+  DATA.flagged = new Set(Array.isArray(vkData.flagged) ? vkData.flagged : []);
 
   termList.length = 0;
   Object.entries(DATA.terms).forEach(([k,v]) => termList.push({term:k,...v}));
@@ -614,6 +684,7 @@ async function bootApp() {
   $('#stTerms').textContent = termList.length;
   $('#stDue').textContent = dueTerms().length;
   $('#genTime').textContent = DATA.generated;
+  renderSyncStatus();
 
   document.getElementById('vk-loading').style.display = 'none';
   document.getElementById('vk-app').style.display = 'block';

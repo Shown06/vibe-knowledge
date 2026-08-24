@@ -2,12 +2,14 @@
 
 > Vibe Knowledge（バイブナレッジ）は、AIバイブコーディングの実装ノウハウ・設計判断・エラー解決を自動的に学習カードに変換して蓄積するオープンソースサービス。Claude Code・Cursor等のAIエージェント実装ログから知識を自動抽出し、間隔反復（SM-2アルゴリズム）で長期記憶に定着させる。完全無料・MITライセンス・クラウド不要・オフライン対応。
 
+> (English) Vibe Knowledge is an open-source tool that automatically turns Claude Code sessions into plain-language flashcards. It hooks into every Edit/Write/Bash call, asks Claude Haiku what concept was touched, and stores a card with a one-line summary, the reason the code was written that way, and an analogy a non-engineer can follow. Free, MIT licensed, fully local (no cloud, no account, no API key), with a built-in SM-2 spaced-repetition quiz and an MCP server so you can search your own knowledge base from inside a Claude Code session. Requires Claude Pro or Claude Max. Runs on macOS, Linux and Windows (WSL).
+
 URL: https://vibeknowledge.dev/
 GitHub: https://github.com/Shown06/vibe-knowledge
 Dashboard: https://vibeknowledge.dev/app/
 License: MIT
-Languages: 日本語 / English
-Last updated: 2026-06-16
+Languages: English (/) / 日本語 (/ja/) / 简体中文 (/zh/)
+Last updated: 2026-08-21
 
 ---
 
@@ -323,7 +325,9 @@ Vibe Knowledgeの最大の差別化: 「操作ゼロで自動蓄積」＋「実�
 
 ## 主要ページリンク（Key Pages）
 
-- [公式サイト・LP](https://vibeknowledge.dev/) — インストール方法・機能説明・FAQ
+- [Official site (English)](https://vibeknowledge.dev/) — install, features, 57-item FAQ
+- [公式サイト・日本語版](https://vibeknowledge.dev/ja/) — インストール方法・機能説明・FAQ（57件）
+- [官方网站・简体中文](https://vibeknowledge.dev/zh/) — 安装方法・功能说明・常见问题（57条）
 - [ダッシュボード](https://vibeknowledge.dev/app/) — 認証付き個人ダッシュボード（カード管理）
 - [GitHub リポジトリ](https://github.com/Shown06/vibe-knowledge) — ソースコード・README・インストールスクリプト
 - [インストールスクリプト](https://raw.githubusercontent.com/Shown06/vibe-knowledge/refs/tags/v1.1.0/install.sh) — 直接実行可能なインストーラー

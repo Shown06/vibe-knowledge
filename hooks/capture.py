@@ -11,7 +11,27 @@ import json
 import datetime
 
 DATA = os.path.expanduser("~/.claude/vibe-knowledge/data")
+CONFIG_PATH = os.path.expanduser("~/.claude/vibe-knowledge/config.json")
 IMPL_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit", "Bash"}
+
+
+def _is_excluded_cwd(cwd):
+    """NDA/秘密保持のためのプロジェクト単位ブロックリスト判定。
+    config.json の exclude_paths に含まれる文字列のいずれかが cwd の部分文字列なら True。
+    fail-open: config.json が無い/壊れている場合は「除外なし」として通常通り動作する
+    (これはブロックリストであり、動かないより除外リストが空でも動く方が壊れにくいため)。
+    TODO(将来検討): ブロックリストは列挙し忘れに弱い。NDA案件が増えるなら
+    「明示的に許可したパスだけ捕捉する」allowlist 方式への切り替えを検討する余地がある。
+    """
+    if not cwd:
+        return False
+    try:
+        with open(CONFIG_PATH, encoding="utf-8") as f:
+            cfg = json.load(f)
+        excludes = cfg.get("exclude_paths", []) or []
+    except Exception:
+        return False
+    return any(p and p in cwd for p in excludes)
 
 # --- 秘密マスク(平文の鍵・トークンを events/cards に残さない・haikuにも送らない) ---
 SECRET_FILE_RE = re.compile(
@@ -52,6 +72,10 @@ def main():
     try:
         ev = json.load(sys.stdin)
     except Exception:
+        return
+
+    cwd = ev.get("cwd", "")
+    if _is_excluded_cwd(cwd):
         return
 
     tool = ev.get("tool_name", "")

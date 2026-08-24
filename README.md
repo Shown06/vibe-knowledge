@@ -24,7 +24,7 @@ Open view/index.html → Review cards, quiz yourself, explore concept map
 | Layer | Role | Cost |
 |---|---|---|
 | **Capture** (`capture.py`) | Logs Edit/Write/Bash events in real-time | Zero |
-| **Distill** (`distill-worker.sh`) | Converts events → cards after each session | Included in Claude subscription |
+| **Distill** (`distill-worker.sh`) | Converts events → cards after each session | Included in Claude subscription by default (switch to a metered API key via `config.json` → `use_api_key`) |
 | **Review** (`view/index.html`) | 6-tab viewer: Cards / Projects / Glossary / Concept Map / Quiz / Retrospective | Zero |
 
 - Implementation events with no new concepts → claude is never called (no wasted tokens)
@@ -91,6 +91,32 @@ The capture hook automatically redacts:
 - API keys and tokens (`sk-...`, `ghp_...`, `Bearer ...`, etc.)
 - Password/secret key=value pairs
 - Full contents of `.env`, `*.key`, `*.pem` files
+
+If you work on client or NDA-covered projects, see **Configuration** below to exclude
+them from capture entirely.
+
+---
+
+## Configuration
+
+All optional settings live in `~/.claude/vibe-knowledge/config.json` (created by `install.sh`
+with safe defaults; edit it any time — no reinstall needed).
+
+```json
+{
+  "exclude_paths": [],
+  "use_api_key": false
+}
+```
+
+| Key | Default | What it does |
+|---|---|---|
+| `exclude_paths` | `[]` | List of path substrings. If a project's working directory matches any entry, `capture.py` returns immediately for that project — nothing is logged, ever. Useful for client/NDA work you don't want turned into flashcards. Example: adding `"/Clients/AcmeCorp"` excludes any project under that path. |
+| `use_api_key` | `false` | By default, card generation runs in the background using your **Claude Pro/Max subscription quota** (one `claude -p` call roughly once per turn). Set this to `true` and export `ANTHROPIC_API_KEY` if you'd rather pay per-token on a metered API key instead of spending subscription quota. |
+
+If `config.json` is missing or malformed, both settings fall back to their defaults
+(capture stays on for all projects; the subscription is used) — a broken config file
+never silently blocks capture.
 
 ---
 

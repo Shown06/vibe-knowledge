@@ -27,6 +27,8 @@
   .tagline{color:var(--ink-dim);margin:10px 0 0;font-size:15px}
   .stats{display:flex;gap:26px;margin-top:18px;color:var(--ink-dim);font-size:13px}
   .stats b{color:var(--ink);font-family:var(--serif);font-size:22px;font-weight:600;margin-right:6px}
+  #syncStatus{font-size:12px;color:var(--ink-dim);margin-left:8px}
+  #syncStatus.bad{color:var(--bad)}
 
   nav{display:flex;gap:4px;margin-top:24px;flex-wrap:wrap}
   nav button{background:none;border:none;color:var(--ink-dim);font-family:var(--sans);
@@ -218,6 +220,7 @@
 <footer><div class="wrap">
   Vibe Knowledge — 復習の進みぐあいはこのブラウザにだけ保存されます（外部に送りません）。
   データ更新: <span id="genTime">—</span>
+  <span id="syncStatus" style="display:none"></span>
 </div></footer>
 
 <script src="data.js"></script>
@@ -247,6 +250,28 @@ const termList = Object.entries(DATA.terms||{}).map(([k,v])=>({term:k,...v}));
 $('#stCards').textContent = (DATA.cards||[]).length;
 $('#stTerms').textContent = termList.length;
 $('#genTime').textContent = DATA.generated || '—';
+
+// --- 同期状態の可視化(sync_status が無いキャッシュでは何も表示しない) ---
+function timeAgo(iso){
+  const then = new Date(iso).getTime();
+  if(isNaN(then)) return '';
+  const diffMin = Math.max(0, Math.floor((Date.now()-then)/60000));
+  if(diffMin < 1) return 'たった今';
+  if(diffMin < 60) return diffMin+'分前';
+  const diffH = Math.floor(diffMin/60);
+  if(diffH < 24) return diffH+'時間前';
+  return Math.floor(diffH/24)+'日前';
+}
+(function renderSyncStatus(){
+  const box = $('#syncStatus');
+  const s = DATA.sync_status;
+  if(!box || !s || !s.ts) return;
+  const ageHours = (Date.now() - new Date(s.ts).getTime()) / 3600000;
+  const isBad = s.status === 'fail' || !isFinite(ageHours) || ageHours >= 36;
+  box.style.display='inline';
+  box.classList.toggle('bad', isBad);
+  box.textContent = isBad ? '同期失敗(要確認) — 最終: '+(timeAgo(s.ts)||'不明') : '最終同期: '+timeAgo(s.ts);
+})();
 
 /* ---------- cards ---------- */
 function cardRow(label, body){

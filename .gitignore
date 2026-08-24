@@ -28,8 +28,16 @@ HANDOVER.md
 GOAL.md
 tasks/
 
+# Backup snapshots
+lp_backup_*/
+*.bak*
+
 # macOS
 .DS_Store
+
+# Python venv
+.venv/
+venv/
 
 # Environment files
 .env

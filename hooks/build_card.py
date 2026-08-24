@@ -145,6 +145,9 @@ def project_name(cwd):
     return base or cwd
 
 
+DUP_SUPPRESS_DAYS = 14
+
+
 def merge(cards_new, data_dir, view_dir, project):
     os.makedirs(data_dir, exist_ok=True)
     cards_path = os.path.join(data_dir, "cards.jsonl")
@@ -154,6 +157,9 @@ def merge(cards_new, data_dir, view_dir, project):
     added = []
     td = today()
     ts = now_iso()
+    today_date = datetime.date.today()
+    proj_key = project or ""
+
     with open(cards_path, "a", encoding="utf-8") as cf:
         for c in cards_new:
             if not isinstance(c, dict):
@@ -169,22 +175,42 @@ def merge(cards_new, data_dir, view_dir, project):
                 qa_raw = []
             qa = [{"q": str(x.get("q", "")), "a": str(x.get("a", ""))}
                   for x in qa_raw if isinstance(x, dict) and x.get("q")]
-            card = {
-                "id": f"{td}-{len(added)}-{abs(hash(term + ts)) % 1000000}",
-                "ts": ts,
-                "project": project,
-                "term": term,
-                "reading": c.get("reading", ""),
-                "easy": c.get("easy", ""),
-                "why": c.get("why", ""),
-                "analogy": c.get("analogy", ""),
-                "explain": c.get("explain", ""),
-                "qa": qa,
-                "related": related,
-                "code_ref": c.get("code_ref", ""),
-            }
-            cf.write(json.dumps(card, ensure_ascii=False) + "\n")
-            added.append(card)
+
+            # --- 生成時点での重複抑制(コード側で判定・LLMには任せない) ---
+            # 同一プロジェクトで直近 DUP_SUPPRESS_DAYS 日以内に同じ用語が既出なら、
+            # cards.jsonl への新規追記はスキップし、terms.json の count/last_seen/related だけ更新する。
+            # 別プロジェクトでの初出、または同一プロジェクトでも期間超の再登場は
+            # 文脈の違いに価値があるため通常通り新規カードとして追記する。
+            skip_new_card = False
+            existing = terms.get(term)
+            if existing:
+                seen_by_proj = existing.get("last_seen_by_project", {}) or {}
+                last_seen_for_proj = seen_by_proj.get(proj_key)
+                if last_seen_for_proj:
+                    try:
+                        last_dt = datetime.date.fromisoformat(last_seen_for_proj)
+                        if (today_date - last_dt).days < DUP_SUPPRESS_DAYS:
+                            skip_new_card = True
+                    except Exception:
+                        pass
+
+            if not skip_new_card:
+                card = {
+                    "id": f"{td}-{len(added)}-{abs(hash(term + ts)) % 1000000}",
+                    "ts": ts,
+                    "project": project,
+                    "term": term,
+                    "reading": c.get("reading", ""),
+                    "easy": c.get("easy", ""),
+                    "why": c.get("why", ""),
+                    "analogy": c.get("analogy", ""),
+                    "explain": c.get("explain", ""),
+                    "qa": qa,
+                    "related": related,
+                    "code_ref": c.get("code_ref", ""),
+                }
+                cf.write(json.dumps(card, ensure_ascii=False) + "\n")
+                added.append(card)
 
             if term in terms:
                 terms[term]["count"] = terms[term].get("count", 1) + 1
@@ -193,15 +219,20 @@ def merge(cards_new, data_dir, view_dir, project):
                 terms[term]["related"] = sorted(x for x in rel if x)
             else:
                 terms[term] = {
-                    "reading": card["reading"],
-                    "definition": card["easy"],
-                    "analogy": card["analogy"],
+                    "reading": c.get("reading", ""),
+                    "definition": c.get("easy", ""),
+                    "analogy": c.get("analogy", ""),
                     "first_seen": td,
                     "last_seen": td,
                     "count": 1,
                     "related": sorted(x for x in related if x),
                     "srs": init_srs(),
                 }
+
+            # プロジェクト別の直近既出トラッキング(次回以降の重複抑制判定に使う)
+            terms[term]["last_project"] = project
+            seen_by_proj = terms[term].setdefault("last_seen_by_project", {})
+            seen_by_proj[proj_key] = td
 
     with open(terms_path, "w", encoding="utf-8") as f:
         json.dump(terms, f, ensure_ascii=False, indent=2)
