@@ -28,8 +28,13 @@ for SECRET in RESEND_API_KEY NOTIFY_EMAIL ADMIN_TOKEN; do
 done
 
 echo "=== [3/4] Pages プロジェクトへデプロイ ==="
+# 運用ファイル(wrangler.toml/deploy.sh 等)を公開させないためステージングへ複製してから配信する
+# ※ .assetsignore は wrangler pages deploy では無視されるため使えない(2026-08-27 実測)
 cd "$LP_DIR"
-wrangler pages deploy . --project-name "$PROJECT" --branch main
+STAGE="$(mktemp -d)"
+rsync -a --exclude 'wrangler.toml' --exclude 'deploy.sh' --exclude '.wrangler' --exclude '.assetsignore' ./ "$STAGE/"
+wrangler pages deploy "$STAGE" --project-name "$PROJECT" --branch main
+rm -rf "$STAGE"
 
 echo "=== [4/4] デプロイ確認 ==="
 DEPLOY_URL=$(wrangler pages deployment list --project-name "$PROJECT" 2>/dev/null | grep -oE 'https://[a-z0-9-]+\.pages\.dev' | head -1)
